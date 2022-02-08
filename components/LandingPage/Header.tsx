@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import img from './../../public/EMPLOYE.png';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
     Box,
     Flex,
@@ -31,6 +32,7 @@ const Header: NextPage = () => {
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'60px'}
+                maxW={''}
                 py={{ base: 2 }}
                 px={{ base: 4 }}
                 borderBottom={1}
@@ -62,33 +64,31 @@ const Header: NextPage = () => {
                     direction={'row'}
                     spacing={6}>
                     <LoginModal />
-                    <Button
-                        display={{ base: 'none', md: 'inline-flex' }}
-                        fontSize={'md'}
-                        fontWeight={400}
-                        variant={'solid'}
-                        size={'md'}
-                        // fontWeight={600}
-                        color={'white'}
-                        bg={'black'}
-                        // href={'#'}
-                        _hover={{
-                            bg: 'black',
-                        }}
-                        _active={{
-                            bg: 'black',
-                        }}
-                        // onClick={onOpen}
-                    >
-                        Register
-                    </Button>
+
+                    <Link href={'/workersignup'}>
+                        <Button
+                            display={{ base: 'none', md: 'inline-flex' }}
+                            fontSize={'md'}
+                            fontWeight={400}
+                            variant={'solid'}
+                            size={'md'}
+                            color={'white'}
+                            bg={'black'}
+                            href={'#'}
+                            _hover={{
+                                bg: 'black',
+                            }}
+                            _active={{
+                                bg: 'black',
+                            }}>
+                            Register
+                        </Button>
+                    </Link>
                 </Stack>
             </Flex>
         </Box>
     );
 };
-
-interface LoginModalProps {}
 
 const LoginModal = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();

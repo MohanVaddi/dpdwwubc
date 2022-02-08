@@ -1,23 +1,245 @@
-import { Container, Flex } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Container,
+    Flex,
+    FormControl,
+    FormLabel,
+    Grid,
+    GridItem,
+    Input,
+    Radio,
+    RadioGroup,
+    Stack,
+    Text,
+    useColorModeValue,
+    VStack,
+} from '@chakra-ui/react';
+import Image from 'next/image';
 import type { NextPage } from 'next';
+import profileImg from './../../public/EMPLOYE.png';
+import SignUpHeader from '../../components/WorkerSignup/SignUpHeader';
 
 const Home: NextPage = () => {
     return (
-        <Flex height={'100vh'} width='full'>
-            <Container width={'container.xl'} backgroundColor='black'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At quia
-                libero magnam quas tempore laboriosam autem similique vel
-                recusandae, assumenda totam officia deserunt unde? Voluptas
-                quaerat accusamus dolorem quas. Tempore. Soluta dolore ullam
-                sint at sapiente ea necessitatibus magni minus iste? Accusantium
-                quos neque saepe qui id sit libero labore magnam dolorum ipsa
-                optio corrupti fugiat, odit, culpa ducimus iusto! Deserunt quia
-                id officiis quam eum blanditiis perspiciatis voluptatum numquam,
-                accusantium quo nisi? Officia velit tempore, corrupti
-                perspiciatis, iusto repudiandae praesentium, harum eaque illo
-                assumenda minus nesciunt dignissimos possimus nisi.
+        <>
+            <SignUpHeader />
+            <Container maxW={'container.lg'} h={'100vh'} p={0} pt='10'>
+                {/* <VStack maxH={'100vh'} width='full' height='full'> */}
+                <Grid
+                    templateColumns='repeat(3, 1fr)'
+                    // templateRows={'repeat(10,1fr)'}
+                    gap={6}>
+                    <GridItem
+                        w='100%'
+                        rowSpan={0}
+                        padding={10}
+                        align='center'
+                        alignContent={'center'}>
+                        <Image src={profileImg} />
+                        <Button variant={'outline'} color='black'>
+                            CHOOSE
+                        </Button>
+                    </GridItem>
+                    <GridItem w='100%' colSpan={2}>
+                        <Flex
+                            w='full'
+                            alignItems='center'
+                            justifyContent='center'>
+                            <Box
+                                p={8}
+                                bg={useColorModeValue('white', 'gray.800')}
+                                // maxW='sm'
+                                // borderWidth='1px'
+                                // rounded='lg'
+                                // shadow='lg'
+                                position='relative'>
+                                <Grid
+                                    templateColumns='repeat(2, 1fr)'
+                                    // templateRows={'repeat(10,1fr)'}
+                                    gap={6}>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>First Name</FormLabel>
+                                            <Input
+                                                name='firstName'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Last Name</FormLabel>
+                                            <Input
+                                                name='lastName'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Age</FormLabel>
+                                            <Input
+                                                name='age'
+                                                type={'number'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Gender</FormLabel>
+                                            <RadioGroup
+                                            // onChange={setValue}
+                                            // value={value}
+                                            >
+                                                <Stack
+                                                    spacing={2}
+                                                    direction='row'
+                                                    alignItems={'center'}>
+                                                    <Radio
+                                                        colorScheme={'gray'}
+                                                        value='1'>
+                                                        Male
+                                                    </Radio>
+                                                    <Radio
+                                                        colorScheme={'gray'}
+                                                        value='2'>
+                                                        Female
+                                                    </Radio>
+                                                    <Radio
+                                                        colorScheme={'gray'}
+                                                        value='3'>
+                                                        Prefer not to say
+                                                    </Radio>
+                                                </Stack>
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>First Name</FormLabel>
+                                            <Input
+                                                name='firstName'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>First Name</FormLabel>
+                                            <Input
+                                                name='firstName'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                </Grid>
+                            </Box>
+                        </Flex>
+                    </GridItem>
+                    <GridItem w='100%'></GridItem>
+                    <GridItem w='100%' colSpan={2}>
+                        <Flex
+                            w='full'
+                            alignItems='center'
+                            justifyContent='center'>
+                            <Box
+                                p={8}
+                                w='full'
+                                bg={useColorModeValue('white', 'gray.800')}
+                                // maxW='sm'
+                                // borderWidth='1px'
+                                // rounded='lg'
+                                // shadow='lg'
+                                position='relative'>
+                                <Grid
+                                    templateColumns='repeat(2, 1fr)'
+                                    // templateRows={'repeat(10,1fr)'}
+                                    gap={6}>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Door No.</FormLabel>
+                                            <Input
+                                                name='doorno'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Street</FormLabel>
+                                            <Input
+                                                name='street'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>Village/Town</FormLabel>
+                                            <Input
+                                                name='town'
+                                                type={'number'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>City</FormLabel>
+                                            <Input
+                                                name='city'
+                                                type={'number'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>District</FormLabel>
+                                            <Input
+                                                name='district'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>State</FormLabel>
+                                            <Input
+                                                name='state'
+                                                type={'text'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                    <GridItem w='100%'>
+                                        <FormControl>
+                                            <FormLabel>PIN</FormLabel>
+                                            <Input
+                                                name='pincode'
+                                                type={'number'}
+                                                variant={'filled'}
+                                            />
+                                        </FormControl>
+                                    </GridItem>
+                                </Grid>
+                            </Box>
+                        </Flex>
+                    </GridItem>
+                </Grid>
+                {/* </VStack> */}
             </Container>
-        </Flex>
+        </>
     );
 };
 
