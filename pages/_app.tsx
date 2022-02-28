@@ -4,9 +4,10 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import customtheme from './../theme/theme';
 import { css, Global } from '@emotion/react';
 import 'focus-visible/dist/focus-visible';
+import '@fontsource/montserrat';
+import '@fontsource/inter';
 
 function MyApp({ Component, pageProps }: AppProps) {
-    
     const GlobalStyles = css`
         /*
     This will hide the focus indicator if the element receives focus via the mouse,

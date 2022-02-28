@@ -1,15 +1,20 @@
+import { useState } from 'react';
 import {
     Box,
     Button,
     Container,
+    Divider,
     Flex,
     FormControl,
     FormLabel,
     Grid,
     GridItem,
+    HStack,
     Input,
+    Progress,
     Radio,
     RadioGroup,
+    Spacer,
     Stack,
     Text,
     useColorModeValue,
@@ -18,229 +23,173 @@ import {
 import Image from 'next/image';
 import type { NextPage } from 'next';
 import profileImg from './../../public/EMPLOYE.png';
-import SignUpHeader from '../../components/WorkerSignup/SignUpHeader';
+import Header from '../../components/UI/Header';
+import { PersonalDetails } from './PersonalDetails';
+import { Layout } from './Layout';
+import { AddressDetails } from './AddressDetails';
+import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import { WorkDetails } from './WorkDetails';
+import { ImageAndLocation } from './ImageAndLocation';
 
 const Home: NextPage = () => {
+    const [step, setStep] = useState<number>(1);
+
+    // proceed to the next step
+    const nextStep = () => {
+        setStep((prevState) => {
+            return prevState + 1;
+        });
+    };
+    // go back to previous step
+    const prevStep = () => {
+        setStep((prevState) => {
+            return prevState - 1;
+        });
+    };
+
+    switch (step) {
+        case 1:
+            return (
+                <Layout>
+                    <VStack w='full' spacing={10}>
+                        <PersonalDetails />
+                        <Divider/>
+                        <AddressDetails />
+                    </VStack>
+                    <HStack pt={10}>
+                        <Progress value={0} size='xs' colorScheme='pink' />
+                        <Spacer />
+                        <Button
+                            fontSize={'md'}
+                            fontWeight={400}
+                            size={'md'}
+                            color={'black'}
+                            rightIcon={<ArrowForwardIcon />}
+                            variant='outline'
+                            onClick={() => {
+                                nextStep();
+                            }}>
+                            Continue
+                        </Button>
+                    </HStack>
+                </Layout>
+            );
+        case 2:
+            return (
+                <Layout>
+                    <WorkDetails />
+                    <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
+                        <Progress
+                            w='full'
+                            value={25}
+                            size='sm'
+                            colorScheme={'blackAlpha'}
+                        />
+                        <HStack w='full' pt={10} alignItems='center'>
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                leftIcon={<ArrowBackIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    prevStep();
+                                }}>
+                                Previous
+                            </Button>
+                            <Spacer />
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                rightIcon={<ArrowForwardIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    nextStep();
+                                }}>
+                                Continue
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </Layout>
+            );
+
+        case 3:
+            return (
+                <Layout>
+                    <ImageAndLocation />
+                    <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
+                        <Progress
+                            w='full'
+                            value={50}
+                            size='sm'
+                            colorScheme={'blackAlpha'}
+                        />
+                        <HStack w='full' pt={10} alignItems='center'>
+                            {/* <Progress value={20} size='xs' colorScheme='pink' /> */}
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                leftIcon={<ArrowBackIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    prevStep();
+                                }}>
+                                Previous
+                            </Button>
+                            <Spacer />
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                rightIcon={<ArrowForwardIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    nextStep();
+                                }}>
+                                Continue
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </Layout>
+            );
+        default:
+            break;
+    }
     return (
         <>
-            <SignUpHeader />
-            <Container maxW={'container.lg'} h={'100vh'} p={0} pt='10'>
-                {/* <VStack maxH={'100vh'} width='full' height='full'> */}
-                <Grid
-                    templateColumns='repeat(3, 1fr)'
-                    // templateRows={'repeat(10,1fr)'}
-                    gap={6}>
-                    <GridItem
-                        w='100%'
-                        rowSpan={0}
-                        padding={10}
-                        align='center'
-                        alignContent={'center'}>
-                        <Image src={profileImg} />
-                        <Button variant={'outline'} color='black'>
-                            CHOOSE
-                        </Button>
-                    </GridItem>
-                    <GridItem w='100%' colSpan={2}>
-                        <Flex
-                            w='full'
-                            alignItems='center'
-                            justifyContent='center'>
-                            <Box
-                                p={8}
-                                bg={useColorModeValue('white', 'gray.800')}
-                                // maxW='sm'
-                                // borderWidth='1px'
-                                // rounded='lg'
-                                // shadow='lg'
-                                position='relative'>
-                                <Grid
-                                    templateColumns='repeat(2, 1fr)'
-                                    // templateRows={'repeat(10,1fr)'}
-                                    gap={6}>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>First Name</FormLabel>
-                                            <Input
-                                                name='firstName'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Last Name</FormLabel>
-                                            <Input
-                                                name='lastName'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Age</FormLabel>
-                                            <Input
-                                                name='age'
-                                                type={'number'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Gender</FormLabel>
-                                            <RadioGroup
-                                            // onChange={setValue}
-                                            // value={value}
-                                            >
-                                                <Stack
-                                                    spacing={2}
-                                                    direction='row'
-                                                    alignItems={'center'}>
-                                                    <Radio
-                                                        colorScheme={'gray'}
-                                                        value='1'>
-                                                        Male
-                                                    </Radio>
-                                                    <Radio
-                                                        colorScheme={'gray'}
-                                                        value='2'>
-                                                        Female
-                                                    </Radio>
-                                                    <Radio
-                                                        colorScheme={'gray'}
-                                                        value='3'>
-                                                        Prefer not to say
-                                                    </Radio>
-                                                </Stack>
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>First Name</FormLabel>
-                                            <Input
-                                                name='firstName'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>First Name</FormLabel>
-                                            <Input
-                                                name='firstName'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                </Grid>
-                            </Box>
-                        </Flex>
-                    </GridItem>
-                    <GridItem w='100%'></GridItem>
-                    <GridItem w='100%' colSpan={2}>
-                        <Flex
-                            w='full'
-                            alignItems='center'
-                            justifyContent='center'>
-                            <Box
-                                p={8}
-                                w='full'
-                                bg={useColorModeValue('white', 'gray.800')}
-                                // maxW='sm'
-                                // borderWidth='1px'
-                                // rounded='lg'
-                                // shadow='lg'
-                                position='relative'>
-                                <Grid
-                                    templateColumns='repeat(2, 1fr)'
-                                    // templateRows={'repeat(10,1fr)'}
-                                    gap={6}>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Door No.</FormLabel>
-                                            <Input
-                                                name='doorno'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Street</FormLabel>
-                                            <Input
-                                                name='street'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>Village/Town</FormLabel>
-                                            <Input
-                                                name='town'
-                                                type={'number'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>City</FormLabel>
-                                            <Input
-                                                name='city'
-                                                type={'number'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>District</FormLabel>
-                                            <Input
-                                                name='district'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>State</FormLabel>
-                                            <Input
-                                                name='state'
-                                                type={'text'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                    <GridItem w='100%'>
-                                        <FormControl>
-                                            <FormLabel>PIN</FormLabel>
-                                            <Input
-                                                name='pincode'
-                                                type={'number'}
-                                                variant={'filled'}
-                                            />
-                                        </FormControl>
-                                    </GridItem>
-                                </Grid>
-                            </Box>
-                        </Flex>
-                    </GridItem>
-                </Grid>
-                {/* </VStack> */}
-            </Container>
+            <Header />
+            <Container
+                w='full'
+                maxW='container.lg'
+                h='100vh'
+                pt={8}
+                px={{ base: 6, md: 10, lg: 0 }}></Container>
         </>
     );
 };
+
+// const ProfileImg: React.FC = () => {
+//     return (
+//         <GridItem
+//             w='100%'
+//             rowSpan={0}
+//             padding={6}
+//             align='center'
+//             alignContent={'center'}>
+//             <VStack>
+//                 <Image src={profileImg} width='200px' height={'200px'} />
+//                 <Button variant={'outline'} color='black'>
+//                     CHOOSE
+//                 </Button>
+//             </VStack>
+//         </GridItem>
+//     );
+// };
 
 export default Home;

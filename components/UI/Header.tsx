@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import img from './../../public/EMPLOYE.png';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
 
-const SignUpHeader: NextPage = () => {
+const Header = () => {
     return (
         <Box>
             <Flex
@@ -26,12 +27,9 @@ const SignUpHeader: NextPage = () => {
                         })}
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}> */}
-                    <Image
-                        src={img}
-                        alt='Picture of the author'
-                        width={40}
-                        height={40}
-                    />
+                    <Link href={'/'}>
+                        <Image src={img} alt='logo' width={40} height={40} />
+                    </Link>
                     {/* </Text> */}
                 </Flex>
             </Flex>
@@ -39,4 +37,4 @@ const SignUpHeader: NextPage = () => {
     );
 };
 
-export default SignUpHeader;
+export default Header;
