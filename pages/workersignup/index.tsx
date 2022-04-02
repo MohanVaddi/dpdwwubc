@@ -29,7 +29,8 @@ import { Layout } from './Layout';
 import { AddressDetails } from './AddressDetails';
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { WorkDetails } from './WorkDetails';
-import { ImageAndLocation } from './ImageAndLocation';
+import { ImageComponent } from './Image';
+import { Location } from './Location';
 
 const Home: NextPage = () => {
     const [step, setStep] = useState<number>(1);
@@ -53,7 +54,7 @@ const Home: NextPage = () => {
                 <Layout>
                     <VStack w='full' spacing={10}>
                         <PersonalDetails />
-                        <Divider/>
+                        <Divider />
                         <AddressDetails />
                     </VStack>
                     <HStack pt={10}>
@@ -119,7 +120,49 @@ const Home: NextPage = () => {
         case 3:
             return (
                 <Layout>
-                    <ImageAndLocation />
+                    <ImageComponent />
+                    <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
+                        <Progress
+                            w='full'
+                            value={50}
+                            size='sm'
+                            colorScheme={'blackAlpha'}
+                        />
+                        <HStack w='full' pt={10} alignItems='center'>
+                            {/* <Progress value={20} size='xs' colorScheme='pink' /> */}
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                leftIcon={<ArrowBackIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    prevStep();
+                                }}>
+                                Previous
+                            </Button>
+                            <Spacer />
+                            <Button
+                                fontSize={'md'}
+                                fontWeight={400}
+                                size={'md'}
+                                color={'black'}
+                                rightIcon={<ArrowForwardIcon />}
+                                variant='outline'
+                                onClick={() => {
+                                    nextStep();
+                                }}>
+                                Continue
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </Layout>
+            );
+        case 4:
+            return (
+                <Layout>
+                    <Location />
                     <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
                         <Progress
                             w='full'

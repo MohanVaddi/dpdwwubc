@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import img from './../../public/EMPLOYE.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
     Box,
     Flex,
@@ -19,9 +20,12 @@ import {
     FormControl,
     FormLabel,
     Input,
+    ButtonProps,
 } from '@chakra-ui/react';
 
 import { useRef } from 'react';
+
+const FramerButton = motion<ButtonProps>(Button);
 
 const Header: NextPage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +36,7 @@ const Header: NextPage = () => {
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'60px'}
-                maxW={''}
+                // maxW={''}
                 py={{ base: 2 }}
                 px={{ base: 4 }}
                 borderBottom={1}
@@ -70,17 +74,8 @@ const Header: NextPage = () => {
                             display={{ base: 'none', md: 'inline-flex' }}
                             fontSize={'md'}
                             fontWeight={400}
-                            variant={'solid'}
-                            size={'md'}
-                            color={'white'}
-                            bg={'black'}
-                            href={'#'}
-                            _hover={{
-                                bg: 'black',
-                            }}
-                            _active={{
-                                bg: 'black',
-                            }}>
+                            variant={'secondary'}
+                            size={'md'}>
                             Register
                         </Button>
                     </Link>
@@ -99,8 +94,6 @@ const LoginModal = () => {
             <Button
                 fontSize={'md'}
                 fontWeight={400}
-                // variant={'link'}
-                // bg={'white'}
                 variant={'outline'}
                 onClick={onOpen}>
                 Sign In
@@ -167,15 +160,13 @@ const LoginModal = () => {
                         {/* <Button colorScheme='blue' mr={3} onClick={onClose}>
                             Close
                         </Button> */}
-                        <Button
+                        <FramerButton
+                            variant={'secondary'}
                             fontWeight={'100'}
-                            bg={'black'}
-                            color={'white'}
-                            _hover={{
-                                bg: 'black',
-                            }}>
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}>
                             Log in
-                        </Button>
+                        </FramerButton>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

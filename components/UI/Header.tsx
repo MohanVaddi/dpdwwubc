@@ -27,9 +27,9 @@ const Header = () => {
                         })}
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}> */}
-                    <Link href={'/'}>
-                        <Image src={img} alt='logo' width={40} height={40} />
-                    </Link>
+                    {/* <Link href={'/'}> */}
+                    <Image src={img} alt='logo' width={40} height={40} />
+                    {/* </Link> */}
                     {/* </Text> */}
                 </Flex>
             </Flex>

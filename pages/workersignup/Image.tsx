@@ -3,7 +3,16 @@ import React from 'react';
 import Image from 'next/image';
 import profileImg from './../../public/EMPLOYE.png';
 
-export const ImageAndLocation = () => {
+const getLocation = () => {
+    if (!navigator.geolocation) {
+        console.log('This browser donot support Geolocation.');
+    }
+    navigator.geolocation.getCurrentPosition((location) => {
+        console.log(location.coords);
+    });
+};
+
+export const ImageComponent = () => {
     return (
         <VStack w='full'>
             <Image src={profileImg} width='250px' height={'250px'} />
@@ -14,6 +23,12 @@ export const ImageAndLocation = () => {
                 </Button>
                 <Button variant={'outline'} color='black'>
                     Upload
+                </Button>
+                <Button
+                    variant={'outline'}
+                    colorScheme={'blackAlpha'}
+                    onClick={getLocation}>
+                    Get Location
                 </Button>
             </HStack>
         </VStack>

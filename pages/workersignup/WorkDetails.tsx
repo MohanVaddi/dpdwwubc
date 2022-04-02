@@ -27,7 +27,7 @@ export const WorkDetails = () => {
                 <GridItem w='100%'>
                     <FormControl>
                         <FormLabel>Profession</FormLabel>
-                        <Select>
+                        <Select variant={'filled'}>
                             <option value={'none'} defaultChecked>
                                 -- select --
                             </option>
