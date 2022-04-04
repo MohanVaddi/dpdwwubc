@@ -2,7 +2,7 @@ import { Container } from '@chakra-ui/react';
 import React from 'react';
 import Header from './../../components/UI/Header';
 
-export const Layout: React.FC = ({ children }) => (
+const Layout: React.FC = ({ children }) => (
     <>
         <Header />
         <Container
@@ -15,3 +15,5 @@ export const Layout: React.FC = ({ children }) => (
         </Container>
     </>
 );
+
+export default Layout;

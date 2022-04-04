@@ -13,7 +13,7 @@ import {
     Heading,
 } from '@chakra-ui/react';
 
-export const PersonalDetails: React.FC = () => {
+const PersonalDetails: React.FC = () => {
     return (
         <VStack w='full' align={'flex-start'} spacing={6}>
             <Heading fontSize={'2xl'}>Personal Information</Heading>
@@ -100,3 +100,5 @@ export const PersonalDetails: React.FC = () => {
         </VStack>
     );
 };
+
+export default PersonalDetails;

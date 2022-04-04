@@ -12,7 +12,7 @@ import {
     Stack,
     VStack,
 } from '@chakra-ui/react';
-export const WorkDetails = () => {
+const WorkDetails: React.FC = () => {
     return (
         <VStack w='full' align={'flex-start'} spacing={6}>
             <Heading fontSize={'2xl'}>Work Details</Heading>
@@ -65,7 +65,7 @@ export const WorkDetails = () => {
                     </FormControl>
                 </GridItem>
 
-                <GridItem w='100%' colSpan={[1,2]}>
+                <GridItem w='100%' colSpan={[1, 2]}>
                     <FormControl>
                         <FormLabel>Available Days</FormLabel>
                         <CheckboxGroup colorScheme='green' defaultValue={[]}>
@@ -103,3 +103,5 @@ export const WorkDetails = () => {
         </VStack>
     );
 };
+
+export default WorkDetails;

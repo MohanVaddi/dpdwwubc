@@ -12,13 +12,13 @@ import Image from 'next/image';
 import type { NextPage } from 'next';
 import profileImg from './../../public/EMPLOYE.png';
 import Header from '../../components/UI/Header';
-import { PersonalDetails } from './PersonalDetails';
-import { Layout } from './Layout';
-import { AddressDetails } from './AddressDetails';
+import PersonalDetails from './PersonalDetails';
+import Layout from './Layout';
+import AddressDetails from './AddressDetails';
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
-import { WorkDetails } from './WorkDetails';
-import { ImageComponent } from './Image';
-import { Location } from './Location';
+import WorkDetails from './WorkDetails';
+import ImageComponent from './Image';
+import Location from './Location';
 import Head from 'next/head';
 
 const Home: NextPage = () => {

@@ -18,12 +18,13 @@ import { MdCall } from 'react-icons/md';
 
 import Link from 'next/link';
 import { Worker } from '../../types/main';
+import {
+    tConvert,
+    isAvailable,
+    truncateAndAddElipsis,
+} from '../../utils/functions';
 
-const truncateAndAddElipsis = (fname: string) => {
-    return `${fname.slice(0, 15)}...`;
-};
-
-export const WorkerCard: React.FC<Worker> = ({
+const WorkerCard: React.FC<Worker> = ({
     uuid,
     fullname,
     profileImage,
@@ -59,12 +60,9 @@ export const WorkerCard: React.FC<Worker> = ({
                         sm: 10,
                         lg: 12,
                     }}
-                    py={4}
-                >
+                    py={4}>
                     <Image
-                        rounded={
-                            '50%'
-                        }
+                        rounded={'50%'}
                         // borderRadius={''}
                         src={profileImage}
                         alt=''
@@ -87,7 +85,7 @@ export const WorkerCard: React.FC<Worker> = ({
                             fontSize={'xl'}
                             fontWeight={600}
                             isTruncated>
-                            {fullname.length > 15
+                            {fullname && fullname.length > 15
                                 ? truncateAndAddElipsis(fullname)
                                 : fullname}
                         </Text>
@@ -96,23 +94,29 @@ export const WorkerCard: React.FC<Worker> = ({
                     <Stack direction={'row'} justifyContent='space-evenly'>
                         <Badge colorScheme={'purple'}>{age}</Badge>
                         <Badge colorScheme={'green'}>
-                            {sex.toLocaleUpperCase()}
+                            {sex && sex.toLocaleUpperCase()}
                         </Badge>
                     </Stack>
                     <Text
                         fontSize={'lg'}
                         fontWeight={600}>{`${expertise}`}</Text>
-                    <Text fontWeight={600}>{`${tConvert(fromTime)} - ${tConvert(
-                        toTime
-                    )}`}</Text>
+                    <Text fontWeight={600}>
+                        {fromTime &&
+                            toTime &&
+                            `${tConvert(fromTime)} - ${tConvert(toTime)}`}
+                    </Text>
                     <Tooltip
                         label={
+                            fromTime &&
+                            toTime &&
                             isAvailable(`${fromTime}:00`, `${toTime}:00`)
                                 ? 'Worker is available'
                                 : 'Worker is unavailable'
                         }>
                         <Text position={'absolute'} top='1' right={'2'}>
-                            {isAvailable(`${fromTime}:00`, `${toTime}:00`) ? (
+                            {fromTime &&
+                            toTime &&
+                            isAvailable(`${fromTime}:00`, `${toTime}:00`) ? (
                                 <CheckCircleIcon
                                     m={0}
                                     p={0}
@@ -130,9 +134,9 @@ export const WorkerCard: React.FC<Worker> = ({
                         </Text>
                     </Tooltip>
 
-                    <Text>{mobile}</Text>
+                    <Text>{mobile && mobile}</Text>
                     <HStack w='full' justifyContent={'space-between'}>
-                        <Link href={`/user/${uuid}`} passHref>
+                        <Link href={`/user/${uuid && uuid}`} passHref>
                             <Button
                                 colorScheme={'messenger'}
                                 rounded='xl'
@@ -140,7 +144,7 @@ export const WorkerCard: React.FC<Worker> = ({
                                 View Profile
                             </Button>
                         </Link>
-                        <Link href={`tel:${mobile}`} passHref>
+                        <Link href={`tel:${mobile && mobile}`} passHref>
                             <Button
                                 colorScheme={'green'}
                                 variant='outline'
@@ -159,29 +163,4 @@ export const WorkerCard: React.FC<Worker> = ({
     );
 };
 
-function tConvert(time: any) {
-    time = time
-        .toString()
-        .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-    if (time.length > 1) {
-        time = time.slice(1);
-        time[3] = ' ';
-        time[5] = +time[0] < 12 ? 'AM' : 'PM';
-        time[0] = +time[0] % 12 || 12;
-    }
-    return time.join('');
-}
-
-function isAvailable(startTime: string, endTime: string) {
-    const currentDate = new Date();
-    const startDate = new Date(currentDate.getTime());
-    startDate.setHours(parseInt(startTime.split(':')[0]));
-    startDate.setMinutes(parseInt(startTime.split(':')[1]));
-    startDate.setSeconds(parseInt(startTime.split(':')[2]));
-    const endDate = new Date(currentDate.getTime());
-    endDate.setHours(parseInt(endTime.split(':')[0]));
-    endDate.setMinutes(parseInt(endTime.split(':')[1]));
-    endDate.setSeconds(parseInt(endTime.split(':')[2]));
-    const valid = startDate < currentDate && endDate > currentDate;
-    return valid;
-}
+export default WorkerCard;

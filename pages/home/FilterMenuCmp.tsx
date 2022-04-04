@@ -4,13 +4,13 @@ import {
     MenuList,
     MenuOptionGroup,
     MenuItemOption,
-    Text
+    Text,
 } from '@chakra-ui/react';
 import { FramerButton } from './index';
 
-export const FilterMenuCmp: React.FC = () => {
+const FilterMenuCmp: React.FC = () => {
     return (
-        <Menu closeOnSelect={false} >
+        <Menu closeOnSelect={false}>
             <MenuButton
                 w={'full'}
                 boxShadow={'sm'}
@@ -36,3 +36,5 @@ export const FilterMenuCmp: React.FC = () => {
         </Menu>
     );
 };
+
+export default FilterMenuCmp;

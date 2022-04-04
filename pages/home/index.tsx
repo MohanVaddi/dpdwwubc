@@ -18,8 +18,8 @@ import { MdLocationSearching } from 'react-icons/md';
 import { useState } from 'react';
 import { Worker } from '../../types/main';
 import workersData from '../../context/workerData';
-import { FilterMenuCmp } from './FilterMenuCmp';
-import { WorkerCard } from './WorkerCard';
+import FilterMenuCmp from './FilterMenuCmp';
+import WorkerCard from './WorkerCard';
 import Head from 'next/head';
 
 export const FramerButton = motion<ButtonProps>(Button);

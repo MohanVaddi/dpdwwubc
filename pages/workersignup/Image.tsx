@@ -11,7 +11,7 @@ const getLocation = () => {
     });
 };
 
-export const ImageComponent = () => {
+const ImageComponent = () => {
     return (
         <VStack w='full'>
             <Image
@@ -38,3 +38,5 @@ export const ImageComponent = () => {
         </VStack>
     );
 };
+
+export default ImageComponent;

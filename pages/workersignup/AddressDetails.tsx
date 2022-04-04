@@ -8,7 +8,7 @@ import {
     Input,
     VStack,
 } from '@chakra-ui/react';
-export const AddressDetails = () => {
+const AddressDetails = () => {
     return (
         <VStack w='full' align={'flex-start'} spacing={6}>
             <Heading fontSize={'xl'}>Address</Heading>
@@ -75,3 +75,5 @@ export const AddressDetails = () => {
         </VStack>
     );
 };
+
+export default AddressDetails
