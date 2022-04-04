@@ -1,7 +1,6 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
-import React from 'react';
 import Image from 'next/image';
-import profileImg from './../../public/EMPLOYE.png';
+import profileImg from './../../public/logo.png';
 
 const getLocation = () => {
     if (!navigator.geolocation) {
@@ -15,7 +14,12 @@ const getLocation = () => {
 export const ImageComponent = () => {
     return (
         <VStack w='full'>
-            <Image src={profileImg} width='250px' height={'250px'} />
+            <Image
+                src={profileImg}
+                width='250px'
+                height={'250px'}
+                alt='profile image'
+            />
 
             <HStack>
                 <Button variant={'outline'} color='black'>

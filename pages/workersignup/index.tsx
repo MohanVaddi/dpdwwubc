@@ -1,23 +1,11 @@
 import { useState } from 'react';
 import {
-    Box,
     Button,
     Container,
     Divider,
-    Flex,
-    FormControl,
-    FormLabel,
-    Grid,
-    GridItem,
     HStack,
-    Input,
     Progress,
-    Radio,
-    RadioGroup,
     Spacer,
-    Stack,
-    Text,
-    useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -31,6 +19,7 @@ import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { WorkDetails } from './WorkDetails';
 import { ImageComponent } from './Image';
 import { Location } from './Location';
+import Head from 'next/head';
 
 const Home: NextPage = () => {
     const [step, setStep] = useState<number>(1);
@@ -52,6 +41,13 @@ const Home: NextPage = () => {
         case 1:
             return (
                 <Layout>
+                    <Head>
+                        <title>Worker Registeration</title>
+                        <meta
+                            name='viewport'
+                            content='initial-scale=1.0, width=device-width'
+                        />
+                    </Head>
                     <VStack w='full' spacing={10}>
                         <PersonalDetails />
                         <Divider />
@@ -78,6 +74,13 @@ const Home: NextPage = () => {
         case 2:
             return (
                 <Layout>
+                    <Head>
+                        <title>Worker Registeration</title>
+                        <meta
+                            name='viewport'
+                            content='initial-scale=1.0, width=device-width'
+                        />
+                    </Head>
                     <WorkDetails />
                     <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
                         <Progress
@@ -120,6 +123,13 @@ const Home: NextPage = () => {
         case 3:
             return (
                 <Layout>
+                    <Head>
+                        <title>Worker Registeration</title>
+                        <meta
+                            name='viewport'
+                            content='initial-scale=1.0, width=device-width'
+                        />
+                    </Head>
                     <ImageComponent />
                     <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
                         <Progress
@@ -162,6 +172,13 @@ const Home: NextPage = () => {
         case 4:
             return (
                 <Layout>
+                    <Head>
+                        <title>Worker Registeration</title>
+                        <meta
+                            name='viewport'
+                            content='initial-scale=1.0, width=device-width'
+                        />
+                    </Head>
                     <Location />
                     <VStack w='full' align={'flex-start'} spacing={4} pt={16}>
                         <Progress
@@ -207,6 +224,13 @@ const Home: NextPage = () => {
     return (
         <>
             <Header />
+            <Head>
+                <title>Worker Registeration</title>
+                <meta
+                    name='viewport'
+                    content='initial-scale=1.0, width=device-width'
+                />
+            </Head>
             <Container
                 w='full'
                 maxW='container.lg'

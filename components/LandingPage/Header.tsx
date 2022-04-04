@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import img from './../../public/EMPLOYE.png';
+import img from './../../public/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -69,7 +69,7 @@ const Header: NextPage = () => {
                     spacing={6}>
                     <LoginModal />
 
-                    <Link href={'/workersignup'}>
+                    <Link href={'/workersignup'} passHref>
                         <Button
                             display={{ base: 'none', md: 'inline-flex' }}
                             fontSize={'md'}

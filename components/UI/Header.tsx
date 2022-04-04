@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import img from './../../public/EMPLOYE.png';
+import img from './../../public/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
