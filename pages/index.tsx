@@ -20,12 +20,12 @@ import {
 import { signInWithPopup } from 'firebase/auth';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import LoadingModal from '../components/UI/LoadingModal';
 
 const Home: NextPage = () => {
-    const [user, loading] = useAuthState(auth);
+    const [user, loading, ] = useAuthState(auth);
     if (loading) {
         return <LoadingModal />;
     } else {

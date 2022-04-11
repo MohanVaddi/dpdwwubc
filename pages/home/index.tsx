@@ -29,7 +29,6 @@ import { Worker } from '../../types/main';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from '../search/FilterMenuCmp';
 import Head from 'next/head';
-import AuthCheck from '../../components/AuthCheck';
 import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';

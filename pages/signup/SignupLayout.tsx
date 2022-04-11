@@ -2,7 +2,7 @@ import Layout from '../../components/UI/Layout';
 import Head from 'next/head';
 import { VStack, SimpleGrid } from '@chakra-ui/react';
 
-export const SignupLayout: React.FC = ({ children }) => {
+const SignupLayout: React.FC = ({ children }) => {
     return (
         <Layout maxw={'container.md'}>
             <Head>
@@ -13,10 +13,12 @@ export const SignupLayout: React.FC = ({ children }) => {
                 />
             </Head>
             <VStack w='full' spacing={10} align='flex-start'>
-                <SimpleGrid columns={[1,1,2,2]} w='full' gap={6}>
+                <SimpleGrid columns={[1, 1, 2, 2]} w='full' gap={6}>
                     {children}
                 </SimpleGrid>
             </VStack>
         </Layout>
     );
 };
+
+export default SignupLayout;

@@ -1,26 +1,23 @@
-import {
-    Button,
-    VStack, GridItem, Box,
-    Image
-} from '@chakra-ui/react';
+import { Button, VStack, GridItem, Box, Image } from '@chakra-ui/react';
 import { useFilePicker } from 'use-file-picker';
 
-export const ProfileImg: React.FC = ({ }) => {
-    const [openFileSelector, { filesContent, loading, errors, plainFiles }] = useFilePicker({
-        multiple: false,
-        readAs: 'DataURL',
+const ProfileImg: React.FC = ({}) => {
+    const [openFileSelector, { filesContent, loading, errors, plainFiles }] =
+        useFilePicker({
+            multiple: false,
+            readAs: 'DataURL',
 
-        // accept: '.ics,.pdf',
-        accept: 'image/*',
-        limitFilesConfig: { max: 1 },
-        // minFileSize: 1, // in megabytes
-        maxFileSize: 1,
-        // maxImageHeight: 1024, // in pixels
-        // minImageHeight: 1024,
-        // maxImageWidth: 768,
-        // minImageWidth: 768
-        // readFilesContent: false, // ignores file content
-    });
+            // accept: '.ics,.pdf',
+            accept: 'image/*',
+            limitFilesConfig: { max: 1 },
+            // minFileSize: 1, // in megabytes
+            maxFileSize: 1,
+            // maxImageHeight: 1024, // in pixels
+            // minImageHeight: 1024,
+            // maxImageWidth: 768,
+            // minImageWidth: 768
+            // readFilesContent: false, // ignores file content
+        });
 
     if (errors.length) {
         return (
@@ -46,14 +43,16 @@ export const ProfileImg: React.FC = ({ }) => {
                             height={'200px'}
                             rounded={'full'}
                             alt='profile image'
-                            src={filesContent[0].content} />
+                            src={filesContent[0].content}
+                        />
                     ) : (
                         <Image
                             alt='profile image'
                             rounded={'full'}
                             src={'/placeholders/pfpplaceholder.png'}
                             width='200px'
-                            height={'200px'} />
+                            height={'200px'}
+                        />
                     )}
                 </Box>
                 {plainFiles.map((file) => (
@@ -70,3 +69,5 @@ export const ProfileImg: React.FC = ({ }) => {
         </GridItem>
     );
 };
+
+export default ProfileImg;
