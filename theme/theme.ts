@@ -46,6 +46,7 @@ const theme = extendTheme({
         Button: {
             variants: {
                 primary: (props: any) => ({
+                    fontWeight:'400',
                     // rounded: 'none',
                     _focus: {
                         ring: 2,

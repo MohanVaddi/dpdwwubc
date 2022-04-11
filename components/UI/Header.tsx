@@ -46,12 +46,13 @@ function SignOutButton() {
     return (
         <Button
             variant={'primary'}
+            fontWeight='400'
             onClick={() => {
                 console.log('signed Out');
                 auth.signOut();
                 router.push('/');
             }}>
-            SignOut
+            Sign Out
         </Button>
     );
 }
