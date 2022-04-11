@@ -2,7 +2,9 @@ import type { NextPage } from 'next';
 import img from './../../public/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Spacer, useColorModeValue } from '@chakra-ui/react';
+import { auth } from '../../lib/firebase';
+import { useRouter } from 'next/router';
 
 const Header = () => {
     return (
@@ -31,10 +33,27 @@ const Header = () => {
                     <Image src={img} alt='logo' width={40} height={40} />
                     {/* </Link> */}
                     {/* </Text> */}
+                    <Spacer/>
+                    <SignOutButton />
                 </Flex>
             </Flex>
         </Box>
     );
 };
+
+function SignOutButton() {
+    const router = useRouter();
+    return (
+        <Button
+            variant={'primary'}
+            onClick={() => {
+                console.log('signed Out');
+                auth.signOut();
+                router.push('/');
+            }}>
+            SignOut
+        </Button>
+    );
+}
 
 export default Header;

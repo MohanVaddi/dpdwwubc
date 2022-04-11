@@ -1,4 +1,4 @@
-interface addressInterface {
+export interface addressInterface {
     door_no: string;
     street: string;
     village: string;
@@ -20,4 +20,10 @@ export interface Worker {
     toTime: string;
     address: addressInterface;
     location: string;
+}
+
+export interface UserData {
+    displayNmae: string;
+    phoneNumberValidated: boolean;
+    photoURL: string;
 }

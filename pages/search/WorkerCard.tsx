@@ -40,7 +40,7 @@ const WorkerCard: React.FC<Worker> = ({
     return (
         <>
             <Stack
-                backgroundColor={useColorModeValue('gray.100', '#231e39')}
+                // backgroundColor={useColorModeValue('gray.100', '#231e39')}
                 borderWidth='1px'
                 w={{
                     base: 'full',
@@ -71,7 +71,6 @@ const WorkerCard: React.FC<Worker> = ({
                     />
                 </Box>
                 <VStack
-                    backgroundColor={useColorModeValue('gray.100', '')}
                     px={10}
                     py={4}
                     spacing={3}

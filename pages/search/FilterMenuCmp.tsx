@@ -6,12 +6,13 @@ import {
     MenuItemOption,
     Text,
 } from '@chakra-ui/react';
-import { FramerButton } from './index';
+import { FramerButton } from '../home/index';
 
 const FilterMenuCmp: React.FC = () => {
     return (
         <Menu closeOnSelect={false}>
             <MenuButton
+                color={'primary.500'}
                 w={'full'}
                 boxShadow={'sm'}
                 as={FramerButton}

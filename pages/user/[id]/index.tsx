@@ -41,7 +41,7 @@ import {
     WarningIcon,
 } from '@chakra-ui/icons';
 import workersData from '../../../context/workerData';
-import { Layout } from '../../../components/UI/Layout';
+import Layout from '../../../components/UI/Layout';
 import Header from '../../../components/UI/Header';
 
 const UserPage: NextPage = () => {
@@ -50,11 +50,9 @@ const UserPage: NextPage = () => {
 
     const cardBackgroundColor = useColorModeValue('gray.100', '#231e39');
 
-    console.log(id);
     const User: any = workersData.find(
         (ele) => ele.uuid === parseInt(id as string)
     );
-    console.log(User);
     if (!User) {
         return <>No User</>;
     }
@@ -89,7 +87,7 @@ const UserPage: NextPage = () => {
                     backgroundColor={cardBackgroundColor}
                     flexDir={{
                         base: 'column',
-                        md:'row'
+                        md: 'row',
                     }}
                     borderRadius={'md'}
                     boxShadow='md'>
@@ -103,7 +101,7 @@ const UserPage: NextPage = () => {
                         />
                     </Stack>
                     <VStack w='full' h='full' align={'center'}>
-                        <Center >
+                        <Center>
                             <SimpleGrid columns={2} spacing='4' p={10}>
                                 <Text fontWeight={600}>Name</Text>
                                 {fullname}

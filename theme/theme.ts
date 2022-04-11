@@ -25,17 +25,17 @@ const theme = extendTheme({
         },
     },
     colors: {
-        brand: {
-            50: '#f5fee5',
-            100: '#e1fbb2',
-            200: '#cdf781',
-            300: '#b8ee56',
-            400: '#a2e032',
-            500: '#8ac919',
-            600: '#71ab09',
-            700: '#578602',
-            800: '#3c5e00',
-            900: '#203300',
+        primary: {
+            50: '#e0e9fb',
+            100: '#b3c8f4',
+            200: '#9db8f1',
+            300: '#86a8ee',
+            400: '#7098eb',
+            500: '#4378e5',
+            600: '#1e5ad7',
+            700: '#1b51c1',
+            800: '#1848aa',
+            900: '#11357e',
         },
     },
     fonts: {
@@ -49,30 +49,23 @@ const theme = extendTheme({
                     // rounded: 'none',
                     _focus: {
                         ring: 2,
-                        ringColor: 'brand.500',
-                    },
-                    color: mode('black', 'gray.800')(props),
-                    backgroundColor: mode('white', 'brand.200')(props),
-                    _hover: {
-                        backgroundColor: mode('white', 'brand.300')(props),
-                    },
-                    _active: {
-                        backgroundColor: mode('white', 'brand.400')(props),
-                    },
-                }),
-                secondary: (props: any) => ({
-                    // rounded: 'none',
-                    _focus: {
-                        ring: 2,
                         ringColor: 'black',
                     },
-                    color: mode('white', 'gray.800')(props),
-                    backgroundColor: mode('black', 'brand.200')(props),
+                    color: mode('white', 'white')(props),
+                    backgroundColor: mode('primary.500', 'primary.500')(props),
                     _hover: {
-                        backgroundColor: mode('black', 'brand.300')(props),
+                        ring: 1,
+                        ringColor: 'primary.700',
+                        backgroundColor: mode(
+                            'primary.500',
+                            'primary.500'
+                        )(props),
                     },
                     _active: {
-                        backgroundColor: mode('black', 'brand.400')(props),
+                        backgroundColor: mode(
+                            'primary.500',
+                            'primary.500'
+                        )(props),
                     },
                 }),
             },
@@ -83,14 +76,14 @@ const theme = extendTheme({
                 default: {
                     field: {
                         _focus: {
-                            borderColor: 'black',
+                            borderColor: 'primary.500',
                         },
                     },
                 },
                 filled: {
                     field: {
                         _focus: {
-                            borderColor: 'black',
+                            borderColor: 'primary.500',
                         },
                     },
                 },
@@ -109,7 +102,7 @@ const theme = extendTheme({
                 filled: {
                     field: {
                         _focus: {
-                            borderColor: 'black',
+                            borderColor: 'primary.500',
                         },
                     },
                 },
@@ -127,7 +120,7 @@ const theme = extendTheme({
                 control: {
                     _focus: {
                         ring: 2,
-                        ringColor: 'black',
+                        ringColor: 'primary.500',
                     },
                 },
             },

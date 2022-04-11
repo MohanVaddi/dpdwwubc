@@ -10,18 +10,31 @@ import {
     GridItem,
     Center,
     SimpleGrid,
+    Text,
+    Spinner,
+    Stack,
+    Skeleton,
+    Flex,
+    Box,
+    HStack,
+    ButtonGroup,
+    VStack,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { NextPage } from 'next';
-import { Layout } from '../../components/UI/Layout';
+import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Worker } from '../../types/main';
 import workersData from '../../context/workerData';
-import FilterMenuCmp from './FilterMenuCmp';
-import WorkerCard from './WorkerCard';
+import FilterMenuCmp from '../search/FilterMenuCmp';
 import Head from 'next/head';
-
+import AuthCheck from '../../components/AuthCheck';
+import { UserContext } from '../../context/UserContext';
+import { useRouter } from 'next/router';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../lib/firebase';
+import LoadingModal from '../../components/UI/LoadingModal';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {
@@ -31,126 +44,55 @@ const getCurrentLocation = () => {
 };
 
 const Home: NextPage = () => {
+    const [user, loading] = useAuthState(auth);
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
-
-    return (
-        <Layout>
-            <Head>
-                <title>Home</title>
-                <meta
-                    name='viewport'
-                    content='initial-scale=1.0, width=device-width'
-                />
-            </Head>
-            <Grid
-                w='full'
-                templateColumns={{
-                    base: 'repeat(2,1fr)',
-                    md: 'repeat(2,1fr)',
-                    lg: 'repeat(5,1fr)',
-                }}
-                templateRows={{
-                    base: 'repeat(2,1fr)',
-                    md: 'repeat(2,1fr)',
-                    lg: 'repeat(1,fr)',
-                }}
-                gap={1}>
-                <GridItem w='full'>
-                    <Button
-                        w='full'
-                        variant={'outline'}
-                        leftIcon={<MdLocationSearching />}
-                        onClick={getCurrentLocation}
-                        boxShadow={'sm'}>
-                        Get Location
-                    </Button>
-                </GridItem>
-                <GridItem w='full'>
-                    <FilterMenuCmp />
-                </GridItem>
-                <GridItem colSpan={3} w='full'>
-                    <InputGroup>
-                        <InputLeftElement
-                            pointerEvents='none'
-                            // eslint-disable-next-line react/no-children-prop
-                            children={<Search2Icon color='gray.300' />}
-                        />
-                        <Input
-                            boxShadow={'sm'}
-                            _focus={{
-                                borderColor: 'black',
-                            }}
-                            type='text'
-                            placeholder='Search'
-                        />
-                    </InputGroup>
-                </GridItem>
-            </Grid>
-            <Center w='full'>
-                <Container maxW='container.lg' w='full' h='full' paddingTop={4}>
-                    {/* <Grid
-                        h='full'
-                        w='full'
-                        templateColumns={{
-                            sm: 'repeat(1, 1fr)',
-                            md: 'repeat(2, 1fr)',
-                            lg: 'repeat(3, 1fr)',
-                        }}
-                        justifyItems='center'> */}
-                    <SimpleGrid
-                        columns={{
-                            base: 1,
-                            md: 2,
-                            lg: 3,
-                        }}
-                        spacing={6}>
-                        {workersData.map(
-                            ({
-                                uuid,
-                                fullname,
-                                profileImage,
-                                age,
-                                sex,
-                                expertise,
-                                mobile,
-                                fromTime,
-                                toTime,
-                                address,
-                                location,
-                            }) => {
-                                return (
-                                    // <GridItem
-                                    //     w={{
-                                    //         base: 'full',
-                                    //         md: 'initial',
-                                    //     }}
-                                    //     key={uuid}>
-                                    <WorkerCard
-                                        key={uuid}
-                                        uuid={uuid}
-                                        fullname={fullname}
-                                        profileImage={profileImage}
-                                        age={age}
-                                        sex={sex}
-                                        expertise={expertise}
-                                        mobile={mobile}
-                                        fromTime={fromTime}
-                                        toTime={toTime}
-                                        address={address}
-                                        location={location}
-                                    />
-                                    // </GridItem>
-                                );
-                            }
-                        )}
-                    </SimpleGrid>
-                    {/* </Grid> */}
-                </Container>
-            </Center>
-        </Layout>
-    );
+    console.log(user);
+    if (loading) {
+        return <LoadingModal />;
+    } else {
+        return (
+            <>
+                {user && (
+                    <Layout>
+                        <Head>
+                            <title>Home</title>
+                            <meta
+                                name='viewport'
+                                content='initial-scale=1.0, width=device-width'
+                            />
+                        </Head>
+                        <Flex
+                            h='full'
+                            flexDirection={{ base: 'column', xl: 'row' }}
+                            gap={10}>
+                            <Box
+                                w={{ base: '100%', xl: '25%' }}
+                                boxShadow='md'
+                                padding={10}>
+                                <Stack
+                                    direction={'column'}
+                                    w='full'
+                                    spacing={4}>
+                                    <Button variant={'primary'}>
+                                        Give Work
+                                    </Button>
+                                    <Button variant={'primary'}>
+                                        Find Work
+                                    </Button>
+                                </Stack>
+                            </Box>
+                            <Box
+                                h='full'
+                                width={{ base: '100%', xl: '75%' }}
+                                boxShadow='lg'></Box>
+                        </Flex>
+                    </Layout>
+                )}
+            </>
+        );
+    }
 };
 
 export default Home;
