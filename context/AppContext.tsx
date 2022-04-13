@@ -1,6 +1,7 @@
 import React from 'react';
 import { Worker } from '../types/main';
 
+// ! comment should only visible in dev for now
 export interface RecentItem {
     type: 'upload' | 'link';
     imageLink: string;
