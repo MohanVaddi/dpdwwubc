@@ -44,6 +44,7 @@ const Header: NextPage = () => {
                 px={{ base: 4 }}
                 borderBottom={1}
                 borderStyle={'solid'}
+                shadow='md'
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}>
                 <Flex

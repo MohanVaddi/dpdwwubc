@@ -21,7 +21,7 @@ export const useUserData = () => {
 
         let unsubscribe: any;
         if (user) {
-            console.log(getData());
+            console.log('user data',getData());
             if (pathname === '/') {
                 push('/home');
             }
