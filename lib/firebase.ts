@@ -41,7 +41,7 @@ onAuthStateChanged(auth, async (user: User | null) => {
                 await batch.commit();
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     } else {
         console.log("could't login");

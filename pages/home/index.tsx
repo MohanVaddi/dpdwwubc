@@ -19,12 +19,18 @@ import {
     HStack,
     ButtonGroup,
     VStack,
+    Tabs,
+    TabList,
+    useColorModeValue,
+    Tab,
+    TabPanels,
+    TabPanel,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Worker } from '../../types/main';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from '../search/FilterMenuCmp';
@@ -66,7 +72,7 @@ const Home: NextPage = () => {
                             h='full'
                             flexDirection={{ base: 'column', xl: 'row' }}
                             gap={10}>
-                            <Box
+                            {/* <Box
                                 w={{ base: '100%', xl: '25%' }}
                                 boxShadow='md'
                                 padding={10}>
@@ -81,17 +87,51 @@ const Home: NextPage = () => {
                                         Find Work
                                     </Button>
                                 </Stack>
-                            </Box>
+                            </Box> */}
                             <Box
                                 h='full'
-                                width={{ base: '100%', xl: '75%' }}
-                                boxShadow='lg'></Box>
+                                // width={{ base: '100%', xl: '75%' }}
+                                width={{ base: '100%', xl: '100%' }}
+                                boxShadow='lg'>
+                                <TabComp />
+                            </Box>
                         </Flex>
                     </Layout>
                 )}
             </>
         );
     }
+};
+
+const TabComp: React.FC = () => {
+    const colors = useColorModeValue(
+        ['red.50', 'teal.50', 'blue.50'],
+        ['red.900', 'teal.900', 'blue.900']
+    );
+    const [tabIndex, setTabIndex] = React.useState(0);
+    const bg = colors[tabIndex];
+    return (
+        <Tabs
+            onChange={(index) => setTabIndex(index)}
+            bg={bg}
+            size='lg'
+            // border={'1'}
+            // borderColor='primary.500'
+        >
+            <TabList>
+                <Tab>Find Work</Tab>
+                <Tab>Post Work</Tab>
+                <Tab>Search Profiles</Tab>
+            </TabList>
+            <TabPanels p='2rem'>
+                <TabPanel>
+                    The Primary Colors
+                </TabPanel>
+                <TabPanel>Are 1, 2, 3</TabPanel>
+                <TabPanel>Red, yellow and blue.</TabPanel>
+            </TabPanels>
+        </Tabs>
+    );
 };
 
 export default Home;
