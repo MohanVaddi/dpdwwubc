@@ -10,8 +10,13 @@ import '@fontsource/inter';
 import { AnimatePresence } from 'framer-motion';
 import { UserContext } from '../context/UserContext';
 import { useUserData } from '../lib/hooks';
+// import client from '../graphql/apollo-client';
+import { useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+    // const { loading, error, data } = useQuery(GET_USERS);
+    // console.log('data from GET_USERS', data);
     const { user, userData } = useUserData();
 
     const GlobalStyles = css`
@@ -36,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                             exitBeforeEnter
                             initial={false}
                             onExitComplete={() => window.scrollTo(0, 0)}>
-                            <Component {...pageProps} />
+                                <Component {...pageProps} />
                         </AnimatePresence>
                     </ChakraProvider>
                 </AppContextProvider>

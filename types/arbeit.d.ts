@@ -23,7 +23,7 @@ export interface Worker {
 }
 
 export interface UserData {
-    displayNmae: string;
+    displayName: string;
     phoneNumberValidated: boolean;
     photoURL: string;
 }

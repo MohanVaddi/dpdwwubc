@@ -31,7 +31,7 @@ import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import React, { useContext, useEffect, useState } from 'react';
-import { Worker } from '../../types/main';
+import { Worker } from '../../types/arbeit';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from '../search/FilterMenuCmp';
 import Head from 'next/head';
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
-    console.log(user);
+    console.log(user?.email);
     if (loading) {
         return <LoadingModal />;
     } else {
@@ -124,9 +124,7 @@ const TabComp: React.FC = () => {
                 <Tab>Search Profiles</Tab>
             </TabList>
             <TabPanels p='2rem'>
-                <TabPanel>
-                    The Primary Colors
-                </TabPanel>
+                <TabPanel>The Primary Colors</TabPanel>
                 <TabPanel>Are 1, 2, 3</TabPanel>
                 <TabPanel>Red, yellow and blue.</TabPanel>
             </TabPanels>

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Header from '../components/LandingPage/Header';
 import styles from '../styles/Home.module.css';
 import services_landing from './../public/LandingPage/services_landing.png';
-import { auth, googleAuthProvider } from '../lib/firebase';
+import { auth, firestore, googleAuthProvider } from '../lib/firebase';
 import {
     Box,
     Heading,
@@ -23,11 +23,14 @@ import { UserContext } from '../context/UserContext';
 import Router, { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import LoadingModal from '../components/UI/LoadingModal';
+import { doc, getDoc } from 'firebase/firestore';
+import { v4 as uuid } from 'uuid';
 
 const Home: NextPage = () => {
     const [user, loading] = useAuthState(auth);
     const iconColor = useColorModeValue('gray.800', 'gray.300');
     const toast = useToast();
+
     if (loading) {
         return <LoadingModal />;
     } else {

@@ -1,4 +1,4 @@
-import { Worker } from '../types/main';
+import { Worker } from '../types/arbeit';
 
 const workersData: Worker[] = [
     {

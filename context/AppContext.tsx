@@ -1,5 +1,5 @@
 import React from 'react';
-import { Worker } from '../types/main';
+import { Worker } from '../types/arbeit';
 
 // ! comment should only visible in dev for now
 export interface RecentItem {

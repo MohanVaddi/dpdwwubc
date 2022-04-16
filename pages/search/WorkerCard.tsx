@@ -17,7 +17,7 @@ import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { MdCall } from 'react-icons/md';
 
 import Link from 'next/link';
-import { Worker } from '../../types/main';
+import { Worker } from '../../types/arbeit';
 import {
     tConvert,
     isAvailable,

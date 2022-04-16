@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import img from './../../public/logo.png';
 import Image from 'next/image';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import {
     Box,
     Flex,
@@ -20,15 +20,44 @@ import {
     VStack,
     useColorModeValue,
     Spacer,
+    useBreakpointValue,
+    HStack,
+    Link
 } from '@chakra-ui/react';
 import { auth } from '../../lib/firebase';
 import { UserContext } from './../../context/UserContext';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { ReactNode, useContext } from 'react';
+
+const NavLink = ({ children }: { children: ReactNode }) => (
+    <Link
+        as={NextLink}
+        px={2}
+        py={1}
+        rounded={'md'}
+        _hover={{
+            textDecoration: 'none',
+            bg: useColorModeValue('gray.200', 'gray.700'),
+        }}
+        href={'#'}>
+        {children}
+    </Link>
+);
+
+const Links = ['Dashboard', 'Projects', 'Team'];
+
 
 const Header = () => {
     const router = useRouter();
     const { userData } = useContext(UserContext);
+    console.log('UserData in Header',userData);
+    const isMobile = useBreakpointValue({
+        base: true,
+        sm: true,
+        md: false,
+        lg: false,
+    });
+
     return (
         <Box>
             <Flex
@@ -42,6 +71,18 @@ const Header = () => {
                 shadow='md'
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
                 align={'center'}>
+                <HStack spacing={8} alignItems={'center'}>
+                    <Image src={img} alt='logo' width={40} height={40} />
+
+                    <HStack
+                        as={'nav'}
+                        spacing={4}
+                        display={{ base: 'none', md: 'flex' }}>
+                        {Links.map((link) => (
+                            <NavLink key={link}>{link}</NavLink>
+                        ))}
+                    </HStack>
+                </HStack>
                 <Flex
                     flex={{ base: 1 }}
                     justify={{ base: 'start', md: 'start' }}>
@@ -53,7 +94,6 @@ const Header = () => {
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}> */}
                     {/* <Link href={'/'}> */}
-                    <Image src={img} alt='logo' width={40} height={40} />
                     {/* </Link> */}
                     {/* </Text> */}
                     <Spacer />
@@ -100,6 +140,13 @@ const Header = () => {
                             <br />
                             <MenuDivider />
                             {/* <MenuItem>Your Servers</MenuItem> */}
+                            {isMobile && (
+                                <>
+                                    <MenuItem>Find Work</MenuItem>
+                                    <MenuItem>Post Work</MenuItem>
+                                    <MenuItem>Search Profiles</MenuItem>
+                                </>
+                            )}
                             <MenuItem>Account Settings</MenuItem>
                             <MenuItem
                                 onClick={() => {

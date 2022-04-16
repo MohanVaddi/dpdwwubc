@@ -20,7 +20,7 @@ import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import { useContext, useEffect, useState } from 'react';
-import { Worker } from '../../types/main';
+import { Worker } from '../../types/arbeit';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from './FilterMenuCmp';
 import WorkerCard from './WorkerCard';
