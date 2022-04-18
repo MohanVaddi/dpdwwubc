@@ -1,44 +1,38 @@
 import React from 'react';
-import { Worker } from '../types/main';
+import { UserInterface } from '../types/arbeit';
 
-// ! comment should only visible in dev for now
-export interface RecentItem {
-    type: 'upload' | 'link';
-    imageLink: string;
-    pdfLink: string;
-    date: Date;
-}
+export interface User extends UserInterface {}
 
-export interface UserInterface {
-    id: string;
-    name: string;
-    email: string;
-    token: string;
-    isLoggedIn: boolean;
-}
-
-const user: UserInterface = {
-    id: '',
-    name: '',
+const user: User = {
+    userId: '',
+    username: '',
     email: '',
-    token: '',
-    isLoggedIn: false,
+    mobile: '',
+    photoURL: '',
+    isMobileVerified: false,
+    openToWork: {
+        userId: '',
+        username: '',
+        email: '',
+        mobile: '',
+        photoURL: '',
+        phoneNumberVerified: false,
+        location: '',
+        expertise: '',
+    },
+    posts: [],
 };
-
-const initialSearchedWorkersList: Worker[] = [];
 
 const initialState = {
     user,
-    searchedWorkers: initialSearchedWorkersList,
 };
 
 type AppState = typeof initialState;
 
 type Action =
-    | { type: 'SET_USER'; payload: UserInterface }
+    | { type: 'SET_USER'; payload: User }
     | { type: 'SET_LOGGEDIN'; payload: boolean }
-    | { type: 'SET_TOKEN'; payload: string }
-    | { type: 'SET_SEARCHED_WORKERS'; payload: Worker[] };
+    | { type: 'SET_TOKEN'; payload: string };
 
 const AppContext = React.createContext<{
     state: AppState;
@@ -50,7 +44,9 @@ const reducer = (state: AppState, action: Action) => {
         case 'SET_USER':
             return {
                 ...state,
-                user: action.payload,
+                user: {
+                    ...action.payload,
+                },
             };
         case 'SET_LOGGEDIN':
             return {
@@ -68,10 +64,6 @@ const reducer = (state: AppState, action: Action) => {
                     token: action.payload,
                 },
             };
-        case 'SET_SEARCHED_WORKERS':
-            return {
-                ... state
-            }
         default:
             return state;
     }

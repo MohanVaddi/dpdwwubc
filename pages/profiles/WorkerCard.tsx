@@ -17,7 +17,7 @@ import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { MdCall } from 'react-icons/md';
 
 import Link from 'next/link';
-import { Worker } from '../../types/main';
+import { Worker } from '../../types/arbeit';
 import {
     tConvert,
     isAvailable,
@@ -70,12 +70,7 @@ const WorkerCard: React.FC<Worker> = ({
                         height={'200px'}
                     />
                 </Box>
-                <VStack
-                    px={10}
-                    py={4}
-                    spacing={3}
-                    w='full'
-                    align={'center'}>
+                <VStack px={10} py={4} spacing={3} w='full' align={'center'}>
                     <Tooltip label={fullname}>
                         <Text
                             align={'center'}
@@ -135,15 +130,15 @@ const WorkerCard: React.FC<Worker> = ({
 
                     <Text>{mobile && mobile}</Text>
                     <HStack w='full' justifyContent={'space-between'}>
-                        <Link href={`/user/${uuid && uuid}`} passHref>
+                        {/* <Link href={`/user/${uuid && uuid}`} passHref>
                             <Button
                                 colorScheme={'messenger'}
                                 rounded='xl'
                                 variant='ghost'>
                                 View Profile
                             </Button>
-                        </Link>
-                        <Link href={`tel:${mobile && mobile}`} passHref>
+                        </Link> */}
+                        {/* <Link href={`tel:${mobile && mobile}`} passHref>
                             <Button
                                 colorScheme={'green'}
                                 variant='outline'
@@ -153,8 +148,9 @@ const WorkerCard: React.FC<Worker> = ({
                             </Button>
                             {/* <Circle size='40px' bg='green' color='white'>
                                 <PhoneIcon />
-                            </Circle> */}
-                        </Link>
+                            </Circle> 
+                        </Link> 
+                        */}
                     </HStack>
                 </VStack>
             </Stack>

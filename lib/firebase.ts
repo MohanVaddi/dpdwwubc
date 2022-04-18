@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from 'axios';
 import { getApps, getApp, initializeApp } from 'firebase/app';
 import {
     getAuth,
@@ -29,16 +30,44 @@ onAuthStateChanged(auth, async (user: User | null) => {
             const userDoc = doc(firestore, `users/${user.uid}`);
             const snapshot = await getDoc(userDoc);
             if (snapshot.exists()) {
-
                 console.log('user already exists');
             } else {
+                console.log('new user');
                 const batch = writeBatch(firestore);
                 batch.set(userDoc, {
                     photoURL: user.photoURL,
                     displayName: user.displayName,
-                    phoneNumberValidated: false,
+                    isMobileVerified: false,
+                    userSavedToDB: true,
                 });
                 await batch.commit();
+                // try {
+                //     const isUserExists = await axios.get(
+                //         'http://localhost:4000/user',
+                //         {
+                //             headers: {
+                //                 'x-user-id': user.uid,
+                //             },
+                //         }
+                //     );
+
+                //     if (isUserExists.data.length === 0) {
+                //         const response: AxiosResponse<UserInterface> =
+                //             await axios.post('http://localhost:4000/user', {
+                //                 userId: user.uid,
+                //                 username: user.displayName,
+                //                 isMobileVerified: false,
+                //                 photoURL: user.photoURL,
+                //                 email: user.email,
+                //             });
+                //         console.log('serever returns ', response.data);
+                //
+                //     } else {
+                //         console.log('user already exists');
+                //     }
+                // } catch (err) {
+                //     console.log(err);
+                // }
             }
         } catch (err) {
             console.error(err);
