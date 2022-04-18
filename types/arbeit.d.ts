@@ -27,3 +27,38 @@ export interface UserData {
     phoneNumberValidated: boolean;
     photoURL: string;
 }
+
+export interface UserInterface {
+    userId: string;
+    username: string;
+    mobile?: string;
+    email: string;
+    photoURL?: string;
+    isMobileVerified?: boolean;
+    openToWork?: OpenToWork;
+    posts?: Posts[];
+}
+
+export interface OpenToWork {
+    userId: string;
+    username: string;
+    mobile: string;
+    email: string;
+    photoURL?: string;
+    phoneNumberVerified: boolean;
+    location: string;
+    expertise: string;
+}
+
+export interface Posts {
+    userId: string;
+    username: string;
+    mobile: string;
+    email: string;
+    photoURL?: string;
+    title: string;
+    description: string;
+    phoneNumberVerified: boolean;
+    location: string;
+    expertiseNeeded: string;
+}

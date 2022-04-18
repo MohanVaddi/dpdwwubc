@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserInterface } from '../server/src/types/main';
+import { UserInterface } from '../types/arbeit';
 
 export interface User extends UserInterface {}
 
