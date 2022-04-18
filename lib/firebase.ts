@@ -8,7 +8,6 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { UserInterface } from '../server/src/types/main';
 const firebaseConfig = {
     apiKey: 'AIzaSyCbukIkp_HrqNa-9LpHp5cNU2_9OGUatvQ',
     authDomain: 'workin-3c1a7.firebaseapp.com',
