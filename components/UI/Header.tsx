@@ -22,14 +22,15 @@ import {
     Spacer,
     useBreakpointValue,
     HStack,
-    Link
+    Link,
 } from '@chakra-ui/react';
 import { auth } from '../../lib/firebase';
 import { UserContext } from './../../context/UserContext';
 import { useRouter } from 'next/router';
 import { ReactNode, useContext } from 'react';
+import { lowerCase } from 'lodash';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
+const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
     <Link
         as={NextLink}
         px={2}
@@ -39,18 +40,15 @@ const NavLink = ({ children }: { children: ReactNode }) => (
             textDecoration: 'none',
             bg: useColorModeValue('gray.200', 'gray.700'),
         }}
-        href={'#'}>
+        href={href}>
         {children}
     </Link>
 );
 
-const Links = ['Dashboard', 'Projects', 'Team'];
-
-
 const Header = () => {
     const router = useRouter();
     const { userData } = useContext(UserContext);
-    console.log('UserData in Header',userData);
+    console.log('UserData in Header', userData);
     const isMobile = useBreakpointValue({
         base: true,
         sm: true,
@@ -78,9 +76,15 @@ const Header = () => {
                         as={'nav'}
                         spacing={4}
                         display={{ base: 'none', md: 'flex' }}>
-                        {Links.map((link) => (
-                            <NavLink key={link}>{link}</NavLink>
-                        ))}
+                        <NavLink href={'/home'} key={'home'}>
+                            {'Home'}
+                        </NavLink>
+                        <NavLink href={'/posts'} key={'posts'}>
+                            {'Posts'}
+                        </NavLink>
+                        <NavLink href={'/profiles'} key={'profiles'}>
+                            {'Profiles'}
+                        </NavLink>
                     </HStack>
                 </HStack>
                 <Flex
@@ -147,7 +151,7 @@ const Header = () => {
                                     <MenuItem>Search Profiles</MenuItem>
                                 </>
                             )}
-                            <MenuItem>Account Settings</MenuItem>
+                            <MenuItem>Set OpenToWork</MenuItem>
                             <MenuItem
                                 onClick={() => {
                                     auth.signOut();

@@ -4,9 +4,8 @@ import { UserData } from '../types/arbeit';
 
 interface UserContext {
     user: User | null;
-    userData: UserData | null;
 }
 
-const initialState: UserContext = { user: null, userData: null };
+const initialState: UserContext = { user: null };
 
 export const UserContext = createContext(initialState);

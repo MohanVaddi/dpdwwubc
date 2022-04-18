@@ -34,6 +34,7 @@ const Home: NextPage = () => {
     if (loading) {
         return <LoadingModal />;
     } else {
+        console.log('user available here', user);
         return (
             <>
                 <Head>

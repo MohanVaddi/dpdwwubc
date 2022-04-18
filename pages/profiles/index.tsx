@@ -38,7 +38,7 @@ const getCurrentLocation = () => {
     });
 };
 
-const Home: NextPage = () => {
+const Profiles: NextPage = () => {
     const [user, loading] = useAuthState(auth);
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
@@ -159,4 +159,4 @@ const Home: NextPage = () => {
     }
 };
 
-export default Home;
+export default Profiles;

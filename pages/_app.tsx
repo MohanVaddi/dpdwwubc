@@ -14,10 +14,9 @@ import { useUserData } from '../lib/hooks';
 import { useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
-
     // const { loading, error, data } = useQuery(GET_USERS);
     // console.log('data from GET_USERS', data);
-    const { user, userData } = useUserData();
+    const { user } = useUserData();
 
     const GlobalStyles = css`
         /*
@@ -33,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <Global styles={GlobalStyles} />
-            <UserContext.Provider value={{ user: user || null, userData }}>
+            <UserContext.Provider value={{ user: user || null }}>
                 <AppContextProvider>
                     <ChakraProvider theme={customtheme}>
                         <ColorModeScript initialColorMode='light' />
@@ -41,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                             exitBeforeEnter
                             initial={false}
                             onExitComplete={() => window.scrollTo(0, 0)}>
-                                <Component {...pageProps} />
+                            <Component {...pageProps} />
                         </AnimatePresence>
                     </ChakraProvider>
                 </AppContextProvider>

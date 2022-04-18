@@ -2,18 +2,13 @@ import { Search2Icon } from '@chakra-ui/icons';
 import {
     Button,
     ButtonProps,
-    Input,
     InputGroup,
     InputLeftElement,
     Container,
     Grid,
-    GridItem,
     Center,
     SimpleGrid,
     Text,
-    Spinner,
-    Stack,
-    Skeleton,
     Flex,
     Box,
     HStack,
@@ -25,21 +20,27 @@ import {
     Tab,
     TabPanels,
     TabPanel,
+    Image,
+    Table,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+
 import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import React, { useContext, useEffect, useState } from 'react';
 import { Worker } from '../../types/arbeit';
 import workersData from '../../context/workerData';
-import FilterMenuCmp from '../search/FilterMenuCmp';
+import FilterMenuCmp from '../profiles/FilterMenuCmp';
 import Head from 'next/head';
 import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../lib/firebase';
 import LoadingModal from '../../components/UI/LoadingModal';
+import AppContext from '../../context/AppContext';
+import { OpenToWorkModal } from './OpenToWorkModal';
+import { ProfileComp } from './ProfileComp';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {
@@ -48,8 +49,63 @@ const getCurrentLocation = () => {
     });
 };
 
+export interface UserInterface {
+    userId: string;
+    username: string;
+    mobile?: string;
+    email: string;
+    photoURL?: string;
+    isMobileVerified?: boolean;
+    openToWork?: OpenToWork;
+    posts?: Posts[];
+}
+
+export interface OpenToWork {
+    userId: string;
+    username: string;
+    mobile: string;
+    email: string;
+    photoURL?: string;
+    phoneNumberVerified: boolean;
+    location: string;
+    expertise: string;
+}
+
+export interface Posts {
+    userId: string;
+    username: string;
+    mobile: string;
+    email: string;
+    photoURL?: string;
+    title: string;
+    description: string;
+    phoneNumberVerified: boolean;
+    location: string;
+    expertiseNeeded: string;
+}
+
 const Home: NextPage = () => {
+    const ctx = useContext(AppContext);
     const [user, loading] = useAuthState(auth);
+
+    const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>();
+
+    useEffect(() => {
+        setUserFrmCtx(ctx.state.user);
+    }, [ctx]);
+
+    useEffect(() => {
+        ctx.dispatch({
+            type: 'SET_USER',
+            payload: {
+                userId: user?.uid.toString() as string,
+                username: user?.displayName as string,
+                photoURL: user?.photoURL as string,
+                email: user?.email as string,
+            },
+        });
+    }, [loading]);
+
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
@@ -57,6 +113,7 @@ const Home: NextPage = () => {
     if (loading) {
         return <LoadingModal />;
     } else {
+        console.log('user data at home', user);
         return (
             <>
                 {user && (
@@ -72,28 +129,41 @@ const Home: NextPage = () => {
                             h='full'
                             flexDirection={{ base: 'column', xl: 'row' }}
                             gap={10}>
-                            {/* <Box
-                                w={{ base: '100%', xl: '25%' }}
-                                boxShadow='md'
-                                padding={10}>
-                                <Stack
-                                    direction={'column'}
-                                    w='full'
-                                    spacing={4}>
-                                    <Button variant={'primary'}>
-                                        Give Work
-                                    </Button>
-                                    <Button variant={'primary'}>
-                                        Find Work
-                                    </Button>
-                                </Stack>
-                            </Box> */}
                             <Box
                                 h='full'
-                                // width={{ base: '100%', xl: '75%' }}
                                 width={{ base: '100%', xl: '100%' }}
                                 boxShadow='lg'>
-                                <TabComp />
+                                <Tabs
+                                    size='lg'
+                                    lazyBehavior='keepMounted'
+                                    isLazy={true}>
+                                    <TabList>
+                                        <Tab>Profile</Tab>
+                                        <Tab>Open To Work</Tab>
+                                        <Tab>Posts</Tab>
+                                    </TabList>
+                                    <TabPanels p='2rem'>
+                                        <TabPanel>
+                                            <ProfileComp
+                                                user={
+                                                    userFrmCtx as UserInterface
+                                                }
+                                            />
+                                        </TabPanel>
+                                        <TabPanel>
+                                            <OpenToWork
+                                                openToWork={
+                                                    userFrmCtx?.openToWork as OpenToWork
+                                                }
+                                            />
+                                        </TabPanel>
+                                        <TabPanel>
+                                            <Text>
+                                                Here goes the user posts
+                                            </Text>
+                                        </TabPanel>
+                                    </TabPanels>
+                                </Tabs>
                             </Box>
                         </Flex>
                     </Layout>
@@ -103,33 +173,70 @@ const Home: NextPage = () => {
     }
 };
 
-const TabComp: React.FC = () => {
-    const colors = useColorModeValue(
-        ['red.50', 'teal.50', 'blue.50'],
-        ['red.900', 'teal.900', 'blue.900']
-    );
-    const [tabIndex, setTabIndex] = React.useState(0);
-    const bg = colors[tabIndex];
-    return (
-        <Tabs
-            onChange={(index) => setTabIndex(index)}
-            bg={bg}
-            size='lg'
-            // border={'1'}
-            // borderColor='primary.500'
-        >
-            <TabList>
-                <Tab>Find Work</Tab>
-                <Tab>Post Work</Tab>
-                <Tab>Search Profiles</Tab>
-            </TabList>
-            <TabPanels p='2rem'>
-                <TabPanel>The Primary Colors</TabPanel>
-                <TabPanel>Are 1, 2, 3</TabPanel>
-                <TabPanel>Red, yellow and blue.</TabPanel>
-            </TabPanels>
-        </Tabs>
-    );
+const OpenToWork: React.FC<Required<Pick<UserInterface, 'openToWork'>>> = ({
+    openToWork,
+}) => {
+    console.log(openToWork);
+    if (openToWork) {
+        return (
+            <Flex w='full' h='full'>
+                <SimpleGrid
+                    h='full'
+                    w='full'
+                    columns={[1, 1, 2]}
+                    gap={[6, 6, 0, 0]}
+                    spacing={6}>
+                    <Center w='full' h='full'>
+                        <Image
+                            w='200px'
+                            h='200px'
+                            alt={'profile picture'}
+                            referrerPolicy='no-referrer'
+                            src={openToWork.photoURL as string}
+                            rounded='full'
+                        />
+                    </Center>
+                    <VStack
+                        w='full'
+                        h='full'
+                        textAlign={{
+                            base: 'center',
+                            sm: 'center',
+                            md: 'left',
+                        }}>
+                        <Text
+                            fontSize={'3xl'}
+                            fontWeight='900'
+                            color='primary.500'
+                            w='full'>
+                            {openToWork?.username}
+                        </Text>
+                        <Text fontWeight='500' fontSize={'md'} w='full'>
+                            {openToWork?.email}
+                        </Text>
+                        {openToWork && openToWork.phoneNumberVerified ? (
+                            <Text fontWeight='500' fontSize={'sm'} w='full'>
+                                {openToWork.mobile}
+                            </Text>
+                        ) : (
+                            <Text fontSize={'sm'} color='gray.500' w='full'>
+                                Phone Number not verified
+                            </Text>
+                        )}
+                    </VStack>
+                </SimpleGrid>
+            </Flex>
+        );
+    } else {
+        return (
+            <VStack w='full' h='full'>
+                <Text fontSize={'lg'}>
+                    You haven&apos;t set your Open to Work.
+                </Text>
+                <OpenToWorkModal />
+            </VStack>
+        );
+    }
 };
 
 export default Home;
