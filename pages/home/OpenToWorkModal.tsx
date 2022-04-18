@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import AppContext from '../../context/AppContext';
-import { ProfileImgUp } from './ProfileImgUp';
+import ProfileImgUp from './ProfileImgUp';
 
-export const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
+const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
     const [step, setStep] = useState<number>(0);
     const ctx = useContext(AppContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -130,3 +130,5 @@ export const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
         </>
     );
 };
+
+export default OpenToWorkModal;

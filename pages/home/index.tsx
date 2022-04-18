@@ -39,8 +39,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../lib/firebase';
 import LoadingModal from '../../components/UI/LoadingModal';
 import AppContext from '../../context/AppContext';
-import { OpenToWorkModal } from './OpenToWorkModal';
-import { ProfileComp } from './ProfileComp';
+import OpenToWorkModal  from './OpenToWorkModal';
+import  ProfileComp  from './ProfileComp';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {

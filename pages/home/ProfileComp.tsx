@@ -7,7 +7,7 @@ import {
 import React from 'react';
 import { UserInterface } from './index';
 
-export const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
+const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
     let newPhotoUrl: string = '';
     if (user) {
         if (user.photoURL) {
@@ -67,3 +67,4 @@ export const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
         </>
     );
 };
+export default ProfileComp

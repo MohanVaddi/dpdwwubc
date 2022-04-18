@@ -3,7 +3,7 @@ import { useFilePicker } from 'use-file-picker';
 import React from 'react';
 
 
-export const ProfileImgUp: React.FC = ({ }) => {
+const ProfileImgUp: React.FC = ({ }) => {
     const [openFileSelector, { filesContent, loading, errors, plainFiles }] = useFilePicker({
         multiple: false,
         readAs: 'DataURL',
@@ -68,3 +68,6 @@ export const ProfileImgUp: React.FC = ({ }) => {
         </GridItem>
     );
 };
+
+
+export default ProfileImgUp

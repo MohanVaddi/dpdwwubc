@@ -47,8 +47,6 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 
 const Header = () => {
     const router = useRouter();
-    const { userData } = useContext(UserContext);
-    console.log('UserData in Header', userData);
     const isMobile = useBreakpointValue({
         base: true,
         sm: true,
@@ -119,7 +117,7 @@ const Header = () => {
                                 minW={0}>
                                 <Avatar
                                     size={'sm'}
-                                    src={`${userData?.photoURL}`}
+                                    src={`logo.png`}
                                 />
                             </MenuButton>
                         </Center>
@@ -129,7 +127,7 @@ const Header = () => {
                             <Center>
                                 <Avatar
                                     size={'2xl'}
-                                    src={`${userData?.photoURL}`}
+                                    src={`/logo.png`}
                                 />
                             </Center>
                             <br />
