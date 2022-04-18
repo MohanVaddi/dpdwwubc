@@ -16,7 +16,7 @@ import React, { useContext, useState } from 'react';
 import AppContext from '../../context/AppContext';
 import ProfileImgUp from './ProfileImgUp';
 
-const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
+const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
     const [step, setStep] = useState<number>(0);
     const ctx = useContext(AppContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -51,6 +51,7 @@ const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
                                 ref={initialRef}
                                 value={ctx.state.user.username}
                                 placeholder='Name'
+                                onChange={() => {}}
                             />
                         </FormControl>
 
@@ -131,4 +132,4 @@ const OpenToWorkModal: React.FC<{}> = (): JSX.Element => {
     );
 };
 
-export default OpenToWorkModal;
+export default OpenToWorkForm;

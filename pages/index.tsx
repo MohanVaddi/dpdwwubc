@@ -1,9 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-// import Image from 'next/image';
 import Header from '../components/LandingPage/Header';
-import styles from '../styles/Home.module.css';
-import services_landing from './../public/LandingPage/services_landing.png';
 import { auth, firestore, googleAuthProvider } from '../lib/firebase';
 import {
     Box,
@@ -16,25 +13,90 @@ import {
     useColorModeValue,
     createIcon,
     useToast,
+    UseToastOptions,
 } from '@chakra-ui/react';
-import { signInWithPopup } from 'firebase/auth';
-import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
-import Router, { useRouter } from 'next/router';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import LoadingModal from '../components/UI/LoadingModal';
-import { doc, getDoc } from 'firebase/firestore';
-import { v4 as uuid } from 'uuid';
+import axios, { AxiosResponse } from 'axios';
+import { UserInterface } from '../types/arbeit';
+import AppContext from '../context/AppContext';
+import usePush from '../hooks/usePush';
 
 const Home: NextPage = () => {
     const [user, loading] = useAuthState(auth);
+    const ctxRef = useRef(useContext(AppContext));
     const iconColor = useColorModeValue('gray.800', 'gray.300');
-    const toast = useToast();
+    const toastRef = useRef(useToast());
+    const push = usePush();
+
+    const dispatchToContext = useCallback(async (userData: UserInterface) => {
+        try {
+            ctxRef.current.dispatch({
+                type: 'SET_USER',
+                payload: userData,
+            });
+            return true;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }, []);
+
+    const sendToast = useCallback(
+        (
+            title: string,
+            description: string,
+            status: 'info' | 'warning' | 'success' | 'error'
+        ) => {
+            toastRef.current({
+                title,
+                description,
+                status,
+                duration: 4000,
+                isClosable: true,
+            });
+        },
+        []
+    );
+
+    useEffect(() => {
+        if (!loading && user) {
+            console.log('loading stopped and user present');
+            console.log(user);
+
+            (async () => {
+                const userFromDB: AxiosResponse<UserInterface> =
+                    await axios.get('https://localhost:4000/user', {
+                        headers: {
+                            'x-user-id': user.uid,
+                        },
+                    });
+
+                if (userFromDB.data) {
+                    console.log('user from db', userFromDB.data);
+                    if (await dispatchToContext(userFromDB.data)) {
+                        sendToast(
+                            'Login Success.',
+                            'Login Success.',
+                            'success'
+                        );
+                    } else {
+                        sendToast(
+                            'Error.',
+                            'Unable to login using google.',
+                            'error'
+                        );
+                        push('/');
+                    }
+                }
+            })();
+        }
+    }, [user, loading, sendToast, dispatchToContext, push]);
 
     if (loading) {
         return <LoadingModal />;
     } else {
-        console.log('user available here', user);
         return (
             <>
                 <Head>
@@ -45,21 +107,6 @@ const Home: NextPage = () => {
                     />
                 </Head>
                 <Header />
-
-                {/* <Flex flexDirection={'column'}>
-                    <Container
-                        maxW={{
-                            base: 'full',
-                            lg: 'container.xl',
-                        }}
-                        w='full'
-                        h='full'
-                        align='center'>
-                        
-                        
-                        </Container>
-                </Flex> */}
-
                 <Container maxW={'3xl'}>
                     <Stack
                         as={Box}
@@ -102,11 +149,11 @@ const Home: NextPage = () => {
                                 colorScheme={'blue'}
                                 size={'sm'}
                                 onClick={() => {
-                                    toast({
-                                        title: `Nothing to learn now!`,
-                                        status: 'info',
-                                        isClosable: true,
-                                    });
+                                    sendToast(
+                                        `Nothing to learn now!`,
+                                        '',
+                                        'info'
+                                    );
                                 }}>
                                 Learn more
                             </Button>

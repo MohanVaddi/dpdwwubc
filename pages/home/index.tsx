@@ -33,14 +33,14 @@ import { Worker } from '../../types/arbeit';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from '../profiles/FilterMenuCmp';
 import Head from 'next/head';
-import { UserContext } from '../../context/UserContext';
-import { useRouter } from 'next/router';
+
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../lib/firebase';
 import LoadingModal from '../../components/UI/LoadingModal';
 import AppContext from '../../context/AppContext';
-import OpenToWorkModal  from './OpenToWorkModal';
-import  ProfileComp  from './ProfileComp';
+import OpenToWorkForm from './OpenToWorkForm';
+import ProfileComp from './ProfileComp';
+import axios from 'axios';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {
@@ -86,13 +86,28 @@ export interface Posts {
 
 const Home: NextPage = () => {
     const ctx = useContext(AppContext);
+    // const
     const [user, loading] = useAuthState(auth);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>();
 
+    // useEffect(() => {
+    //     setIsLoading(true);
+    //     (async () => {
+    //         const userFromDB = await axios.get('http://localhost:3000', {
+    //             headers: {
+    //                 // 'x-user-id': ,
+    //             },
+    //         });
+    //     })();
+    // }, []);
+
     useEffect(() => {
-        setUserFrmCtx(ctx.state.user);
-    }, [ctx]);
+        if (user) {
+            setUserFrmCtx(ctx.state.user);
+        }
+    }, [user, ctx.state.user]);
 
     useEffect(() => {
         ctx.dispatch({
@@ -104,16 +119,15 @@ const Home: NextPage = () => {
                 email: user?.email as string,
             },
         });
-    }, [loading]);
+    }, [user, loading]);
 
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
-    console.log(user?.email);
+
     if (loading) {
         return <LoadingModal />;
     } else {
-        console.log('user data at home', user);
         return (
             <>
                 {user && (
@@ -176,7 +190,6 @@ const Home: NextPage = () => {
 const OpenToWork: React.FC<Required<Pick<UserInterface, 'openToWork'>>> = ({
     openToWork,
 }) => {
-    console.log(openToWork);
     if (openToWork) {
         return (
             <Flex w='full' h='full'>
@@ -233,7 +246,7 @@ const OpenToWork: React.FC<Required<Pick<UserInterface, 'openToWork'>>> = ({
                 <Text fontSize={'lg'}>
                     You haven&apos;t set your Open to Work.
                 </Text>
-                <OpenToWorkModal />
+                <OpenToWorkForm />
             </VStack>
         );
     }

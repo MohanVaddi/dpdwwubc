@@ -12,7 +12,6 @@ const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
     if (user) {
         if (user.photoURL) {
             const photoUrl = user.photoURL!.split('=');
-            console.log(photoUrl);
             newPhotoUrl = `${photoUrl[0]}=s300`;
         }
     }

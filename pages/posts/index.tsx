@@ -53,7 +53,6 @@ const Posts: NextPage = () => {
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
-    console.log(user?.email);
     if (loading) {
         return <LoadingModal />;
     } else {

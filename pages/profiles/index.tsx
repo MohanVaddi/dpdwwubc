@@ -43,7 +43,6 @@ const Profiles: NextPage = () => {
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
-    console.log(user);
     if (loading) {
         return <LoadingModal />;
     } else {
