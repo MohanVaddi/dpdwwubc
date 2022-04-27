@@ -28,7 +28,7 @@ import { motion } from 'framer-motion';
 import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Worker } from '../../types/arbeit';
 import workersData from '../../context/workerData';
 import FilterMenuCmp from '../profiles/FilterMenuCmp';
@@ -41,7 +41,9 @@ import AppContext from '../../context/AppContext';
 import OpenToWorkForm from './OpenToWorkForm';
 import ProfileComp from './ProfileComp';
 import axios from 'axios';
+import MakeAPost from './MakeAPost';
 export const FramerButton = motion<ButtonProps>(Button);
+import { UserInterface, OpenToWork, Posts } from '../../types/arbeit';
 
 const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((e) => {
@@ -49,48 +51,15 @@ const getCurrentLocation = () => {
     });
 };
 
-export interface UserInterface {
-    userId: string;
-    username: string;
-    mobile?: string;
-    email: string;
-    photoURL?: string;
-    isMobileVerified?: boolean;
-    openToWork?: OpenToWork;
-    posts?: Posts[];
-}
-
-export interface OpenToWork {
-    userId: string;
-    username: string;
-    mobile: string;
-    email: string;
-    photoURL?: string;
-    phoneNumberVerified: boolean;
-    location: string;
-    expertise: string;
-}
-
-export interface Posts {
-    userId: string;
-    username: string;
-    mobile: string;
-    email: string;
-    photoURL?: string;
-    title: string;
-    description: string;
-    phoneNumberVerified: boolean;
-    location: string;
-    expertiseNeeded: string;
-}
 
 const Home: NextPage = () => {
     const ctx = useContext(AppContext);
+
     // const
     const [user, loading] = useAuthState(auth);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>();
+    const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>(ctx.state.user);
 
     // useEffect(() => {
     //     setIsLoading(true);
@@ -126,7 +95,11 @@ const Home: NextPage = () => {
     );
 
     if (loading) {
-        return <LoadingModal />;
+        return (
+            <>
+                <LoadingModal />
+            </>
+        );
     } else {
         return (
             <>
@@ -172,9 +145,7 @@ const Home: NextPage = () => {
                                             />
                                         </TabPanel>
                                         <TabPanel>
-                                            <Text>
-                                                Here goes the user posts
-                                            </Text>
+                                            <MakeAPost />
                                         </TabPanel>
                                     </TabPanels>
                                 </Tabs>
@@ -243,9 +214,9 @@ const OpenToWork: React.FC<Required<Pick<UserInterface, 'openToWork'>>> = ({
     } else {
         return (
             <VStack w='full' h='full'>
-                <Text fontSize={'lg'}>
-                    You haven&apos;t set your Open to Work.
-                </Text>
+                {/* <Text fontSize={'lg'}>
+                    You haven&apos;t set your Open to Work yet.
+                </Text> */}
                 <OpenToWorkForm />
             </VStack>
         );

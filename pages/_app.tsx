@@ -14,8 +14,6 @@ import { useUserData } from '../lib/hooks';
 import { useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
-    // const { loading, error, data } = useQuery(GET_USERS);
-    // console.log('data from GET_USERS', data);
     const { user } = useUserData();
 
     const GlobalStyles = css`

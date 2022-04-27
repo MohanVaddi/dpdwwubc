@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        
+        backend: 'http://localhost:4000',
     },
     reactStrictMode: true,
     // typescript: {
@@ -13,4 +13,4 @@ const nextConfig = {
     // },
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;
