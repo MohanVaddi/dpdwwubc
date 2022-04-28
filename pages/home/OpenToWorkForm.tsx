@@ -1,58 +1,48 @@
 import {
     Button,
     Input,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
     FormControl,
     FormLabel,
     Box,
     SimpleGrid,
     Center,
     HStack,
-    RadioGroup,
-    Radio,
     CheckboxGroup,
     Checkbox,
 } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
-import AppContext from '../../context/AppContext';
+import React, { useContext, useRef, useState } from 'react';
+import AppContext, { User } from '../../context/AppContext';
 import ProfileImgUp from './ProfileImgUp';
 import { Select } from 'chakra-react-select';
 import { professions } from '../../lib/config';
+import { OpenToWork, WorkingDays } from '../../types/arbeit';
 
 const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
-    const [step, setStep] = useState<number>(0);
     const ctx = useContext(AppContext);
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const [profession, setProfession] = useState<string>('');
     const [fromTime, setFromTime] = useState<string>('08:00');
     const [toTime, setToTime] = useState<string>('16:00');
+    const [workingDays, setWorkingDays] = useState<WorkingDays[]>([
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+    ]);
 
-    const initialRef = React.useRef<any>();
     const submitHandler = (e: any) => {
         e.preventDefault();
+
+        // const userObj: OpenToWork = {
+        //     userId: ctx.state.user.userId,
+        //     username: ctx.state.user.username,
+        //     mobile: ctx.state.user.mobile,
+        //     email: ctx.state.user.email,
+        //     photoURL: ctx.state.user.photoURL,
+        // };
+
+        console.log();
         console.log('submitting successful');
-    };
-    const finalStep = 1;
-
-    // go back to previous step
-    const prevStep = () => {
-        setStep((prevState) => {
-            return prevState - 1;
-        });
-    };
-
-    // go back to next step
-    const nextStep = () => {
-        setStep((prevState) => {
-            return prevState + 1;
-        });
     };
 
     return (
@@ -70,7 +60,6 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                         <FormControl mt={4}>
                             <FormLabel>Name:</FormLabel>
                             <Input
-                                ref={initialRef}
                                 value={ctx.state.user.username}
                                 placeholder='Name'
                                 onChange={() => {}}
@@ -98,13 +87,10 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                         <FormControl mt={6}>
                             <FormLabel>Available Week days:</FormLabel>
                             <CheckboxGroup
-                                defaultValue={[
-                                    'monday',
-                                    'tuesday',
-                                    'wednesday',
-                                    'thursday',
-                                    'friday',
-                                ]}>
+                                value={workingDays}
+                                onChange={(e) => {
+                                    setWorkingDays(e as any);
+                                }}>
                                 <SimpleGrid columns={3} spacing='2'>
                                     <Checkbox value='monday'>Monday</Checkbox>
                                     <Checkbox value='tuesday'>Tuesday</Checkbox>
@@ -143,7 +129,9 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                         </FormControl>
                     </Box>
                 </SimpleGrid>
-                <Button variant={'primary'} type='submit'>Open To Work</Button>
+                <Button variant={'primary'} type='submit'>
+                    Open To Work
+                </Button>
             </Box>
         </>
     );

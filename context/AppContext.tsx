@@ -3,7 +3,7 @@ import { UserInterface } from '../types/arbeit';
 
 export interface User extends UserInterface {}
 
-const user: User = {
+export const initialUser: User = {
     userId: '',
     username: '',
     email: '',
@@ -14,17 +14,19 @@ const user: User = {
         userId: '',
         username: '',
         email: '',
-        mobile: '',
         photoURL: '',
         phoneNumberVerified: false,
         location: '',
         expertise: '',
+        workingDays: [],
+        fromTime: '',
+        toTime: '',
     },
     posts: [],
 };
 
 const initialState = {
-    user,
+    user: initialUser,
 };
 
 type AppState = typeof initialState;

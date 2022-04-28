@@ -51,7 +51,6 @@ const getCurrentLocation = () => {
     });
 };
 
-
 const Home: NextPage = () => {
     const ctx = useContext(AppContext);
 
@@ -61,24 +60,11 @@ const Home: NextPage = () => {
 
     const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>(ctx.state.user);
 
-
     useEffect(() => {
         if (user) {
             setUserFrmCtx(ctx.state.user);
         }
     }, [user, ctx.state.user]);
-
-    useEffect(() => {
-        ctx.dispatch({
-            type: 'SET_USER',
-            payload: {
-                userId: user?.uid.toString() as string,
-                username: user?.displayName as string,
-                photoURL: user?.photoURL as string,
-                email: user?.email as string,
-            },
-        });
-    }, [user, loading]);
 
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
@@ -112,7 +98,7 @@ const Home: NextPage = () => {
                                 boxShadow='lg'>
                                 <Tabs
                                     size='lg'
-                                    lazyBehavior='keepMounted'
+                                    lazyBehavior='unmount'
                                     isLazy={true}>
                                     <TabList>
                                         <Tab>Profile</Tab>
