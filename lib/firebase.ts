@@ -9,6 +9,7 @@ import {
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { UserInterface } from '../types/arbeit';
+import { backend_uri } from './isDevEnvironment';
 const firebaseConfig = {
     apiKey: 'AIzaSyCbukIkp_HrqNa-9LpHp5cNU2_9OGUatvQ',
     authDomain: 'workin-3c1a7.firebaseapp.com',
@@ -47,20 +48,17 @@ onAuthStateChanged(auth, async (user: User | null) => {
             console.error(err);
         } finally {
             try {
-                const isUserExists = await axios.get(
-                    'http://localhost:4000/user',
-                    {
-                        headers: {
-                            'x-user-id': user.uid,
-                        },
-                    }
-                );
+                const isUserExists = await axios.get(`${backend_uri}/user`, {
+                    headers: {
+                        'x-user-id': user.uid,
+                    },
+                });
 
                 console.log('is User Exists', isUserExists);
 
                 if (isUserExists.data.length === 0) {
                     const response: AxiosResponse<UserInterface> =
-                        await axios.post('http://localhost:4000/user', {
+                        await axios.post(`${backend_uri}/user`, {
                             userId: user.uid,
                             username: user.displayName,
                             isMobileVerified: false,
@@ -71,7 +69,6 @@ onAuthStateChanged(auth, async (user: User | null) => {
                 } else {
                     console.log('user already exists in db');
                 }
-
             } catch (err) {
                 console.log(err);
             }

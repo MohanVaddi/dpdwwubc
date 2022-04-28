@@ -9,22 +9,24 @@ interface ProfileImgUpProps {
 const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
     imgUrl = '/placeholders/placeholder2.png',
 }) => {
-    const [openFileSelector, { filesContent, loading, errors, plainFiles }] =
-        useFilePicker({
-            multiple: false,
-            readAs: 'DataURL',
+    const [
+        openFileSelector,
+        { filesContent, loading, errors, plainFiles, clear },
+    ] = useFilePicker({
+        multiple: false,
+        readAs: 'DataURL',
 
-            // accept: '.ics,.pdf',
-            accept: 'image/*',
-            limitFilesConfig: { max: 1 },
-            // minFileSize: 1, // in megabytes
-            maxFileSize: 1,
-            // maxImageHeight: 1024, // in pixels
-            // minImageHeight: 1024,
-            // maxImageWidth: 768,
-            // minImageWidth: 768
-            // readFilesContent: false, // ignores file content
-        });
+        // accept: '.ics,.pdf',
+        accept: 'image/*',
+        limitFilesConfig: { max: 1 },
+        // minFileSize: 1, // in megabytes
+        maxFileSize: 1,
+        // maxImageHeight: 1024, // in pixels
+        // minImageHeight: 1024,
+        // maxImageWidth: 768,
+        // minImageWidth: 768
+        // readFilesContent: false, // ignores file content
+    });
 
     if (errors.length) {
         return (
@@ -67,13 +69,26 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
                 {/* {plainFiles.map((file) => (
                     <div key={file.name}>{file.name}</div>
                 ))} */}
-                <Button
-                    onClick={() => openFileSelector()}
-                    isLoading={loading}
-                    loadingText='Uploading'
-                    variant={'primary'}>
-                    CHOOSE
-                </Button>
+                {plainFiles.length === 0 && (
+                    <Button
+                        onClick={() => openFileSelector()}
+                        isLoading={loading}
+                        loadingText='Uploading'
+                        variant={'outline'}>
+                        Upload
+                    </Button>
+                )}
+                {plainFiles.length > 0 && (
+                    <Button
+                        onClick={() => {
+                            clear();
+                        }}
+                        isLoading={loading}
+                        loadingText='removing'
+                        variant={'outline'}>
+                        Remove
+                    </Button>
+                )}
             </VStack>
         </GridItem>
     );

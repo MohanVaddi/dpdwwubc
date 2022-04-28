@@ -31,6 +31,8 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
     const ctx = useContext(AppContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [profession, setProfession] = useState<string>('');
+    const [fromTime, setFromTime] = useState<string>('08:00');
+    const [toTime, setToTime] = useState<string>('16:00');
 
     const initialRef = React.useRef<any>();
     const submitHandler = (e: any) => {
@@ -62,10 +64,10 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                 textAlign={'right'}>
                 <SimpleGrid columns={[1, 2]} w='full' mb={8}>
                     <Center w='full' h='full'>
-                        <ProfileImgUp imgUrl={ctx.state.user.photoURL}/>
+                        <ProfileImgUp imgUrl={ctx.state.user.photoURL} />
                     </Center>
                     <Box px={[1, 8, 10]} w='full'>
-                        <FormControl>
+                        <FormControl mt={4}>
                             <FormLabel>Name:</FormLabel>
                             <Input
                                 ref={initialRef}
@@ -75,7 +77,7 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                             />
                         </FormControl>
 
-                        <FormControl mt={4}>
+                        <FormControl mt={6}>
                             <FormLabel>Email ID:</FormLabel>
                             <Input
                                 readOnly={true}
@@ -83,7 +85,7 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                                 placeholder='Email'
                             />
                         </FormControl>
-                        <FormControl mt='4'>
+                        <FormControl mt={6}>
                             <FormLabel>Profession:</FormLabel>
                             <Select
                                 onChange={(e) => {
@@ -93,7 +95,7 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                             />
                         </FormControl>
 
-                        <FormControl mt={4}>
+                        <FormControl mt={6}>
                             <FormLabel>Available Week days:</FormLabel>
                             <CheckboxGroup
                                 defaultValue={[
@@ -120,9 +122,28 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                                 </SimpleGrid>
                             </CheckboxGroup>
                         </FormControl>
+                        <FormControl mt={6}>
+                            <FormLabel>Timings:</FormLabel>
+                            <HStack w='full'>
+                                <Input
+                                    value={fromTime}
+                                    type={'time'}
+                                    onChange={(e) => {
+                                        setFromTime(e.target.value);
+                                    }}
+                                />
+                                <Input
+                                    value={toTime}
+                                    type={'time'}
+                                    onChange={(e) => {
+                                        setToTime(e.target.value);
+                                    }}
+                                />
+                            </HStack>
+                        </FormControl>
                     </Box>
                 </SimpleGrid>
-                <Button type='submit'>Open To Work</Button>
+                <Button variant={'primary'} type='submit'>Open To Work</Button>
             </Box>
         </>
     );

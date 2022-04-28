@@ -24,4 +24,3 @@ export const sortChronological = (arr: any[], property: string) => {
     return arr.sort((ele1, ele2) => ele2[property] - ele1[property]);
 };
 
-

@@ -39,6 +39,7 @@ import { CheckCircleIcon, PhoneIcon, WarningIcon } from '@chakra-ui/icons';
 import { truncateAndAddElipsis } from '../../utils/functions';
 import { MdCall } from 'react-icons/md';
 import { professions } from '../../lib/config';
+import { backend_uri } from '../../lib/isDevEnvironment';
 const MakeAPost = () => {
     const toast = useToast();
     const ctx = useContext(AppContext);
@@ -187,7 +188,7 @@ const MakeAPost = () => {
 
         try {
             const res: AxiosResponse<Partial<UserInterface>> = await axios.post(
-                `${process.env.backend}/user/createPost`,
+                `${backend_uri}/user/createPost`,
                 {
                     postId: v4(),
                     userId: userCtx.userId,
@@ -318,9 +319,8 @@ interface PostCompProps {
 }
 
 const PostComp: React.FC<PostCompProps> = ({ post }) => {
-    console.log(post.createdAt);
     const dateNTime = new Date(parseInt(post.createdAt as string));
-    console.log(dateNTime);
+    console.log(backend_uri)
     return (
         <>
             <Stack

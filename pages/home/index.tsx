@@ -61,16 +61,6 @@ const Home: NextPage = () => {
 
     const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>(ctx.state.user);
 
-    // useEffect(() => {
-    //     setIsLoading(true);
-    //     (async () => {
-    //         const userFromDB = await axios.get('http://localhost:3000', {
-    //             headers: {
-    //                 // 'x-user-id': ,
-    //             },
-    //         });
-    //     })();
-    // }, []);
 
     useEffect(() => {
         if (user) {

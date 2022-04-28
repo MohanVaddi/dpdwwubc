@@ -22,6 +22,7 @@ import axios, { AxiosResponse } from 'axios';
 import { UserInterface } from '../types/arbeit';
 import AppContext from '../context/AppContext';
 import usePush from '../hooks/usePush';
+import { backend_uri } from '../lib/isDevEnvironment';
 
 const Home: NextPage = () => {
     const [user, loading] = useAuthState(auth);
@@ -69,7 +70,7 @@ const Home: NextPage = () => {
             (async () => {
                 try {
                     const userFromDB: AxiosResponse<UserInterface> =
-                        await axios.get(`${process.env.backend}/user`, {
+                        await axios.get(`${backend_uri}/user`, {
                             headers: {
                                 'x-user-id': user.uid,
                             },
@@ -140,9 +141,9 @@ const Home: NextPage = () => {
                             </Text>
                         </Heading>
                         <Text color={'gray.500'}>
-                            We heplp people to connect with local service
+                            We help people to connect with local service
                             providers and service providers to connect with
-                            people, who need their services. This platform is
+                            people around them, who need their services. This platform is
                             free for all and will stay free forever.
                         </Text>
                         <Stack
