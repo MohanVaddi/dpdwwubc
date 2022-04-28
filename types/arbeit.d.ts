@@ -39,15 +39,28 @@ export interface UserInterface {
     posts?: Posts[];
 }
 
+export type WorkingDays =
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday';
+
 export interface OpenToWork {
     userId: string;
     username: string;
-    mobile: string;
+    mobile?: string;
     email: string;
     photoURL?: string;
     phoneNumberVerified: boolean;
     location: string;
     expertise: string;
+    workingDays: WorkingDays[];
+    fromTime: string;
+    toTime: string;
+    
 }
 
 export interface Posts {

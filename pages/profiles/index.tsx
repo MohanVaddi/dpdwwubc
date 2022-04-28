@@ -30,6 +30,7 @@ import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../lib/firebase';
 import LoadingModal from '../../components/UI/LoadingModal';
+import AppContext from '../../context/AppContext';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {
@@ -40,9 +41,16 @@ const getCurrentLocation = () => {
 
 const Profiles: NextPage = () => {
     const [user, loading] = useAuthState(auth);
+    const ctx = useContext(AppContext);
+    const [userCtx, setUserCtx] = useState(ctx.state.user);
     const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
         false
     );
+
+    useEffect(() => {
+        console.log('context in profiles', ctx.state.user);
+    },[])
+
     if (loading) {
         return <LoadingModal />;
     } else {

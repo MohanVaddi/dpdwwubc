@@ -27,8 +27,8 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 import axios, { AxiosResponse } from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import AppContext, { User } from '../../context/AppContext';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import AppContext, { initialUser, User } from '../../context/AppContext';
 import ProfileImgUp from './ProfileImgUp';
 import { Select } from 'chakra-react-select';
 import { UserInterface } from '../../types/arbeit';
@@ -40,7 +40,10 @@ import { truncateAndAddElipsis } from '../../utils/functions';
 import { MdCall } from 'react-icons/md';
 import { professions } from '../../lib/config';
 import { backend_uri } from '../../lib/isDevEnvironment';
-const MakeAPost = () => {
+
+interface MakeAPostProps {}
+
+const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
     const toast = useToast();
     const ctx = useContext(AppContext);
     const [userCtx, setUserCtx] = useState<UserInterface>(ctx.state.user);
@@ -56,9 +59,12 @@ const MakeAPost = () => {
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((e) => {
-            console.log('getting here', e.coords);
             setLocation(e.coords);
         });
+    }, []);
+
+    useEffect(() => {
+        console.log('ctx.current.state.user', ctx.state.user);
         setUserCtx(ctx.state.user);
     }, []);
 
@@ -66,9 +72,8 @@ const MakeAPost = () => {
         setUserCtx(ctx.state.user);
     }, [ctx.state.user]);
 
-    const getLocation = async () => {
+    const getLocation = () => {
         if (navigator.geolocation) {
-            console.log('getting here');
             navigator.geolocation.getCurrentPosition((e) => {
                 console.log('getting here', e.coords);
                 setLocation(e.coords);
@@ -320,7 +325,7 @@ interface PostCompProps {
 
 const PostComp: React.FC<PostCompProps> = ({ post }) => {
     const dateNTime = new Date(parseInt(post.createdAt as string));
-    console.log(backend_uri)
+    console.log(backend_uri);
     return (
         <>
             <Stack
