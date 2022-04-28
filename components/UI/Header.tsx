@@ -30,7 +30,12 @@ import { useRouter } from 'next/router';
 import { ReactNode, useContext } from 'react';
 import { lowerCase } from 'lodash';
 
-const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
+interface NavLinkProps {
+    children: ReactNode;
+    href: string;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ children, href }) => (
     <Link
         as={NextLink}
         px={2}
@@ -45,7 +50,7 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
     </Link>
 );
 
-const Header = () => {
+const Header: React.FC<{}> = () => {
     const router = useRouter();
     const isMobile = useBreakpointValue({
         base: true,
@@ -115,20 +120,14 @@ const Header = () => {
                                 variant={'link'}
                                 cursor={'pointer'}
                                 minW={0}>
-                                <Avatar
-                                    size={'sm'}
-                                    src={`logo.png`}
-                                />
+                                <Avatar size={'sm'} src={`logo.png`} />
                             </MenuButton>
                         </Center>
 
                         <MenuList alignItems={'center'}>
                             <br />
                             <Center>
-                                <Avatar
-                                    size={'2xl'}
-                                    src={`/logo.png`}
-                                />
+                                <Avatar size={'2xl'} src={`/logo.png`} />
                             </Center>
                             <br />
                             <Center>

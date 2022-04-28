@@ -51,6 +51,7 @@ export interface OpenToWork {
 }
 
 export interface Posts {
+    postId: string;
     userId: string;
     username: string;
     mobile: string;
@@ -61,4 +62,5 @@ export interface Posts {
     phoneNumberVerified: boolean;
     location: string;
     expertiseNeeded: string;
+    createdAt?: string;
 }

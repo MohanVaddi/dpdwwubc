@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        
+        backend: 'http://localhost:4000',
+        prod_backend: 'https://arbeit-web-server.herokuapp.com',
     },
     reactStrictMode: true,
     // typescript: {
@@ -13,4 +14,4 @@ const nextConfig = {
     // },
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;

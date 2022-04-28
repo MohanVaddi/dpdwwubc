@@ -22,6 +22,7 @@ import {
     Input,
     ButtonProps,
     useToast,
+    
 } from '@chakra-ui/react';
 
 import { useContext, useRef } from 'react';
@@ -29,10 +30,13 @@ import { useRouter } from 'next/router';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleAuthProvider } from '../../lib/firebase';
 import { UserContext } from '../../context/UserContext';
+import GoogleSvg from './../../public/google-color.svg'
 
 const FramerButton = motion<ButtonProps>(Button);
 
-const Header: NextPage = () => {
+interface HeaderProps {}
+
+const Header: React.FC<HeaderProps> = () => {
     return (
         <Box>
             <Flex
@@ -87,9 +91,19 @@ function SignInWithGoogle() {
         <Button
             fontSize={'md'}
             fontWeight={400}
-            variant={'primary'}
+            colorScheme='blue'
+            variant={'outline'}
+            // color='blackAlpha'
+            rightIcon={
+                <Image
+                    alt='google'
+                    width={20}
+                    height={20}
+                    src={GoogleSvg}
+                />
+            }
             onClick={googleSignIn}>
-            Sign In With Google
+            Sign In With
         </Button>
     );
 }

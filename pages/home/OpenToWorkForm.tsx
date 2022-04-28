@@ -11,18 +11,33 @@ import {
     useDisclosure,
     FormControl,
     FormLabel,
+    Box,
+    SimpleGrid,
+    Center,
+    HStack,
+    RadioGroup,
+    Radio,
+    CheckboxGroup,
+    Checkbox,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import AppContext from '../../context/AppContext';
 import ProfileImgUp from './ProfileImgUp';
+import { Select } from 'chakra-react-select';
+import { professions } from '../../lib/config';
 
 const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
     const [step, setStep] = useState<number>(0);
     const ctx = useContext(AppContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [profession, setProfession] = useState<string>('');
+    const [fromTime, setFromTime] = useState<string>('08:00');
+    const [toTime, setToTime] = useState<string>('16:00');
+
     const initialRef = React.useRef<any>();
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    const submitHandler = (e: any) => {
         e.preventDefault();
+        console.log('submitting successful');
     };
     const finalStep = 1;
 
@@ -33,20 +48,27 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
         });
     };
 
+    // go back to next step
     const nextStep = () => {
         setStep((prevState) => {
             return prevState + 1;
         });
     };
 
-    const renderSwitch = (step: number) => {
-        switch (step) {
-            case 0:
-                return (
-                    <ModalBody>
-                        <ProfileImgUp />
-                        <FormControl>
-                            <FormLabel>Name</FormLabel>
+    return (
+        <>
+            <Box
+                as={'form'}
+                onSubmit={submitHandler}
+                w='full'
+                textAlign={'right'}>
+                <SimpleGrid columns={[1, 2]} w='full' mb={8}>
+                    <Center w='full' h='full'>
+                        <ProfileImgUp imgUrl={ctx.state.user.photoURL} />
+                    </Center>
+                    <Box px={[1, 8, 10]} w='full'>
+                        <FormControl mt={4}>
+                            <FormLabel>Name:</FormLabel>
                             <Input
                                 ref={initialRef}
                                 value={ctx.state.user.username}
@@ -55,79 +77,74 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                             />
                         </FormControl>
 
-                        <FormControl mt={4}>
-                            <FormLabel>Email Id</FormLabel>
+                        <FormControl mt={6}>
+                            <FormLabel>Email ID:</FormLabel>
                             <Input
                                 readOnly={true}
                                 value={ctx.state.user.email}
                                 placeholder='Email'
                             />
                         </FormControl>
-                    </ModalBody>
-                );
-            case 1:
-                return (
-                    <ModalBody>
-                        <ProfileImgUp />
-                        <FormControl>
-                            <FormLabel>Name</FormLabel>
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Email Id</FormLabel>
-                            <Input
-                                readOnly={true}
-                                value={ctx.state.user.email}
-                                placeholder='Email'
+                        <FormControl mt={6}>
+                            <FormLabel>Profession:</FormLabel>
+                            <Select
+                                onChange={(e) => {
+                                    setProfession(e?.value as string);
+                                }}
+                                options={professions}
                             />
                         </FormControl>
-                    </ModalBody>
-                );
-        }
-    };
 
-    return (
-        <>
-            <Button variant={'primary'} onClick={onOpen}>
-                Change
-            </Button>
-
-            <Modal
-                isOpen={isOpen}
-                onClose={onClose}
-                initialFocusRef={initialRef}>
-                <ModalOverlay />
-                <form onSubmit={submitHandler}>
-                    <ModalContent>
-                        <ModalHeader>Open To Work</ModalHeader>
-                        <ModalCloseButton />
-                        {renderSwitch(step)}
-                        <ModalFooter>
-                            {step >= 1 ? (
-                                <Button onClick={prevStep} variant='ghost'>
-                                    Prev
-                                </Button>
-                            ) : (
-                                <Button
-                                    colorScheme='blue'
-                                    mr={3}
-                                    onClick={onClose}>
-                                    Close
-                                </Button>
-                            )}
-                            {step === finalStep ? (
-                                <Button type='submit' variant='ghost'>
-                                    Update
-                                </Button>
-                            ) : (
-                                <Button onClick={nextStep} variant='ghost'>
-                                    Next
-                                </Button>
-                            )}
-                        </ModalFooter>
-                    </ModalContent>
-                </form>
-            </Modal>
+                        <FormControl mt={6}>
+                            <FormLabel>Available Week days:</FormLabel>
+                            <CheckboxGroup
+                                defaultValue={[
+                                    'monday',
+                                    'tuesday',
+                                    'wednesday',
+                                    'thursday',
+                                    'friday',
+                                ]}>
+                                <SimpleGrid columns={3} spacing='2'>
+                                    <Checkbox value='monday'>Monday</Checkbox>
+                                    <Checkbox value='tuesday'>Tuesday</Checkbox>
+                                    <Checkbox value='wednesday'>
+                                        Wednesday
+                                    </Checkbox>
+                                    <Checkbox value='thursday'>
+                                        Thursday
+                                    </Checkbox>
+                                    <Checkbox value='friday'>Friday</Checkbox>
+                                    <Checkbox value='saturday'>
+                                        Saturday
+                                    </Checkbox>
+                                    <Checkbox value='sunday'>Sunday</Checkbox>
+                                </SimpleGrid>
+                            </CheckboxGroup>
+                        </FormControl>
+                        <FormControl mt={6}>
+                            <FormLabel>Timings:</FormLabel>
+                            <HStack w='full'>
+                                <Input
+                                    value={fromTime}
+                                    type={'time'}
+                                    onChange={(e) => {
+                                        setFromTime(e.target.value);
+                                    }}
+                                />
+                                <Input
+                                    value={toTime}
+                                    type={'time'}
+                                    onChange={(e) => {
+                                        setToTime(e.target.value);
+                                    }}
+                                />
+                            </HStack>
+                        </FormControl>
+                    </Box>
+                </SimpleGrid>
+                <Button variant={'primary'} type='submit'>Open To Work</Button>
+            </Box>
         </>
     );
 };

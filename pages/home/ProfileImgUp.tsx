@@ -2,9 +2,17 @@ import { Button, GridItem, Box, VStack, Image } from '@chakra-ui/react';
 import { useFilePicker } from 'use-file-picker';
 import React from 'react';
 
+interface ProfileImgUpProps {
+    imgUrl?: string;
+}
 
-const ProfileImgUp: React.FC = ({ }) => {
-    const [openFileSelector, { filesContent, loading, errors, plainFiles }] = useFilePicker({
+const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
+    imgUrl = '/placeholders/placeholder2.png',
+}) => {
+    const [
+        openFileSelector,
+        { filesContent, loading, errors, plainFiles, clear },
+    ] = useFilePicker({
         multiple: false,
         readAs: 'DataURL',
 
@@ -43,31 +51,47 @@ const ProfileImgUp: React.FC = ({ }) => {
                             width='200px'
                             height={'200px'}
                             rounded={'full'}
+                            referrerPolicy='no-referrer'
                             alt='profile image'
-                            src={filesContent[0].content} />
+                            src={filesContent[0].content}
+                        />
                     ) : (
                         <Image
                             alt='profile image'
                             rounded={'full'}
-                            src={'/placeholders/placeholder2.png'}
+                            src={imgUrl}
                             width='200px'
-                            height={'200px'} />
+                            height={'200px'}
+                            referrerPolicy='no-referrer'
+                        />
                     )}
                 </Box>
-                {plainFiles.map((file) => (
+                {/* {plainFiles.map((file) => (
                     <div key={file.name}>{file.name}</div>
-                ))}
-                <Button
-                    onClick={() => openFileSelector()}
-                    isLoading={loading}
-                    loadingText='Uploading'
-                    variant={'primary'}>
-                    CHOOSE
-                </Button>
+                ))} */}
+                {plainFiles.length === 0 && (
+                    <Button
+                        onClick={() => openFileSelector()}
+                        isLoading={loading}
+                        loadingText='Uploading'
+                        variant={'outline'}>
+                        Upload
+                    </Button>
+                )}
+                {plainFiles.length > 0 && (
+                    <Button
+                        onClick={() => {
+                            clear();
+                        }}
+                        isLoading={loading}
+                        loadingText='removing'
+                        variant={'outline'}>
+                        Remove
+                    </Button>
+                )}
             </VStack>
         </GridItem>
     );
 };
 
-
-export default ProfileImgUp
+export default ProfileImgUp;

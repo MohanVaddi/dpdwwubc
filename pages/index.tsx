@@ -15,16 +15,18 @@ import {
     useToast,
     UseToastOptions,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import LoadingModal from '../components/UI/LoadingModal';
 import axios, { AxiosResponse } from 'axios';
 import { UserInterface } from '../types/arbeit';
 import AppContext from '../context/AppContext';
 import usePush from '../hooks/usePush';
+import { backend_uri } from '../lib/isDevEnvironment';
 
 const Home: NextPage = () => {
     const [user, loading] = useAuthState(auth);
+    const [dbReqLoading, setDbReqLoading] = useState(true);
     const ctxRef = useRef(useContext(AppContext));
     const iconColor = useColorModeValue('gray.800', 'gray.300');
     const toastRef = useRef(useToast());
@@ -66,36 +68,52 @@ const Home: NextPage = () => {
             console.log(user);
 
             (async () => {
-                const userFromDB: AxiosResponse<UserInterface> =
-                    await axios.get('https://localhost:4000/user', {
-                        headers: {
-                            'x-user-id': user.uid,
-                        },
-                    });
+                try {
+                    const userFromDB: AxiosResponse<UserInterface> =
+                        await axios.get(`${backend_uri}/user`, {
+                            headers: {
+                                'x-user-id': user.uid,
+                            },
+                        });
 
-                if (userFromDB.data) {
-                    console.log('user from db', userFromDB.data);
-                    if (await dispatchToContext(userFromDB.data)) {
-                        sendToast(
-                            'Login Success.',
-                            'Login Success.',
-                            'success'
-                        );
-                    } else {
-                        sendToast(
-                            'Error.',
-                            'Unable to login using google.',
-                            'error'
-                        );
-                        push('/');
+                    if (userFromDB.data) {
+                        console.log('user from db', userFromDB.data);
+                        if (await dispatchToContext(userFromDB.data)) {
+                            sendToast(
+                                'Login Success.',
+                                'Login Success.',
+                                'success'
+                            );
+                            setDbReqLoading(true);
+                        } else {
+                            sendToast(
+                                'Error.',
+                                'Unable to login using google.',
+                                'error'
+                            );
+                            push('/');
+                            setDbReqLoading(true);
+                        }
                     }
+                } catch (err) {
+                    sendToast(
+                        'Error.',
+                        'Unable to login using google.',
+                        'error'
+                    );
+                    push('/');
+                    setDbReqLoading(true);
                 }
             })();
         }
-    }, [user, loading, sendToast, dispatchToContext, push]);
+    }, [loading, user, sendToast, dispatchToContext, push]);
 
-    if (loading) {
-        return <LoadingModal />;
+    if (loading && dbReqLoading) {
+        return (
+            <>
+                <LoadingModal />
+            </>
+        );
     } else {
         return (
             <>
@@ -123,9 +141,9 @@ const Home: NextPage = () => {
                             </Text>
                         </Heading>
                         <Text color={'gray.500'}>
-                            We heplp people to connect with local service
+                            We help people to connect with local service
                             providers and service providers to connect with
-                            people, who need their services. This platform is
+                            people around them, who need their services. This platform is
                             free for all and will stay free forever.
                         </Text>
                         <Stack

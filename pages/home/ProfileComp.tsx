@@ -5,7 +5,7 @@ import {
     Flex, VStack, Image
 } from '@chakra-ui/react';
 import React from 'react';
-import { UserInterface } from './index';
+import { UserInterface } from '../../types/arbeit'; 
 
 const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
     let newPhotoUrl: string = '';
@@ -14,7 +14,8 @@ const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
             const photoUrl = user.photoURL!.split('=');
             newPhotoUrl = `${photoUrl[0]}=s300`;
         }
-    }
+        console.log('user in photo exist,', user);
+    } 
     return (
         <>
             <Flex w='full' h='full'>

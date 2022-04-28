@@ -30,7 +30,7 @@ const Layout: React.FC<Props> = ({ children, maxw: maxWid }) => (
         <Container
             w='full'
             maxW={maxWid ? maxWid : 'container.xl'}
-            h='100vh'
+            // h='100vh'
             pt={8}
             px={{ base: 6, md: 10, lg: 0 }}>
             <motion.main
