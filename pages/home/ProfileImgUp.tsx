@@ -37,6 +37,8 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
         );
     }
 
+    console.log(imgUrl)
+
     return (
         <GridItem
             w='100%'
@@ -48,8 +50,8 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
                 <Box borderRadius={'50%'}>
                     {!!filesContent.length ? (
                         <Image
-                            width='200px'
-                            height={'200px'}
+                            width='300px'
+                            height={'300px'}
                             rounded={'full'}
                             referrerPolicy='no-referrer'
                             alt='profile image'
@@ -60,8 +62,8 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
                             alt='profile image'
                             rounded={'full'}
                             src={imgUrl}
-                            width='200px'
-                            height={'200px'}
+                            width='300px'
+                            height={'300px'}
                             referrerPolicy='no-referrer'
                         />
                     )}

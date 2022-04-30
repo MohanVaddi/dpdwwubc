@@ -14,6 +14,7 @@ import {
     createIcon,
     useToast,
     UseToastOptions,
+    toast,
 } from '@chakra-ui/react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -23,14 +24,77 @@ import { UserInterface } from '../types/arbeit';
 import AppContext from '../context/AppContext';
 import usePush from '../hooks/usePush';
 import { backend_uri } from '../lib/isDevEnvironment';
+import LocContext from '../context/LocContext';
 
 const Home: NextPage = () => {
     const [user, loading] = useAuthState(auth);
     const [dbReqLoading, setDbReqLoading] = useState(true);
     const ctxRef = useRef(useContext(AppContext));
+    const locCtx = useContext(LocContext);
+    const [location, setLocation] = useState<
+        GeolocationCoordinates | undefined
+    >(undefined);
     const iconColor = useColorModeValue('gray.800', 'gray.300');
     const toastRef = useRef(useToast());
     const push = usePush();
+
+    useEffect(() => {
+        getLocation();
+    }, []);
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((e) => {
+                console.log('getting here index', e.coords);
+                setLocation(e.coords);
+                locCtx.dispatch({
+                    type: 'SET_LOCATION',
+                    payload: {
+                        lat: e.coords.latitude,
+                        lng: e.coords.longitude,
+                    },
+                });
+            }, onLocationError);
+        } else {
+            toastRef.current({
+                title: 'Error.',
+                description: `Geolocation not supported by this browser.`,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                onCloseComplete: () => {},
+            });
+        }
+    };
+
+    const onLocationError = async () => {
+        try {
+            const permission = await navigator.permissions.query({
+                name: 'geolocation',
+            });
+            if (permission.state === 'denied') {
+                toastRef.current({
+                    title: 'Location Denied.',
+                    description: `Permission Denied.`,
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                    onCloseComplete: () => {},
+                });
+            } else if (permission.state === 'prompt') {
+                toastRef.current({
+                    title: 'Accept permission.',
+                    description: `Please accept permission.`,
+                    status: 'info',
+                    duration: 4000,
+                    isClosable: true,
+                    onCloseComplete: () => {},
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const dispatchToContext = useCallback(async (userData: UserInterface) => {
         try {
@@ -143,8 +207,8 @@ const Home: NextPage = () => {
                         <Text color={'gray.500'}>
                             We help people to connect with local service
                             providers and service providers to connect with
-                            people around them, who need their services. This platform is
-                            free for all and will stay free forever.
+                            people around them, who need their services. This
+                            platform is free for all and will stay free forever.
                         </Text>
                         <Stack
                             direction={'column'}

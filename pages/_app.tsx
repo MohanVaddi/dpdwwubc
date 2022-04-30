@@ -12,6 +12,7 @@ import { UserContext } from '../context/UserContext';
 import { useUserData } from '../lib/hooks';
 // import client from '../graphql/apollo-client';
 import { useState } from 'react';
+import { LocContextProvider } from '../context/LocContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
     const { user } = useUserData();
@@ -32,15 +33,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Global styles={GlobalStyles} />
             <UserContext.Provider value={{ user: user || null }}>
                 <AppContextProvider>
-                    <ChakraProvider theme={customtheme}>
-                        <ColorModeScript initialColorMode='light' />
-                        <AnimatePresence
-                            exitBeforeEnter
-                            initial={false}
-                            onExitComplete={() => window.scrollTo(0, 0)}>
-                            <Component {...pageProps} />
-                        </AnimatePresence>
-                    </ChakraProvider>
+                    <LocContextProvider>
+                        <ChakraProvider theme={customtheme}>
+                            <ColorModeScript initialColorMode='light' />
+                            <AnimatePresence
+                                exitBeforeEnter
+                                initial={false}
+                                onExitComplete={() => window.scrollTo(0, 0)}>
+                                <Component {...pageProps} />
+                            </AnimatePresence>
+                        </ChakraProvider>
+                    </LocContextProvider>
                 </AppContextProvider>
             </UserContext.Provider>
         </>

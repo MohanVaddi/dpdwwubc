@@ -2,20 +2,22 @@ import {
     Center,
     SimpleGrid,
     Text,
-    Flex, VStack, Image
+    Flex,
+    VStack,
+    Image,
 } from '@chakra-ui/react';
 import React from 'react';
-import { UserInterface } from '../../types/arbeit'; 
+import { UserInterface } from '../../types/arbeit';
+import { getGooglePhotoUrl } from '../../utils/functions';
 
-const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
+const ProfileComp: React.FC<{ user: UserInterface }> = ({ user }) => {
     let newPhotoUrl: string = '';
     if (user) {
         if (user.photoURL) {
-            const photoUrl = user.photoURL!.split('=');
-            newPhotoUrl = `${photoUrl[0]}=s300`;
+            newPhotoUrl = getGooglePhotoUrl(user.photoURL, '300');
         }
         console.log('user in photo exist,', user);
-    } 
+    }
     return (
         <>
             <Flex w='full' h='full'>
@@ -32,7 +34,8 @@ const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
                             alt={'profile picture'}
                             referrerPolicy='no-referrer'
                             src={newPhotoUrl as string}
-                            rounded='full' />
+                            rounded='full'
+                        />
                     </Center>
                     <VStack
                         w='full'
@@ -67,4 +70,4 @@ const ProfileComp: React.FC<{ user: UserInterface; }> = ({ user }) => {
         </>
     );
 };
-export default ProfileComp
+export default ProfileComp;

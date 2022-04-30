@@ -25,6 +25,8 @@ import {
     Link,
     SimpleGrid,
     useColorModeValue,
+    Divider,
+    Spacer,
 } from '@chakra-ui/react';
 import axios, { AxiosResponse } from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -61,10 +63,6 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
         navigator.geolocation.getCurrentPosition((e) => {
             setLocation(e.coords);
         });
-    }, []);
-
-    useEffect(() => {
-        console.log('ctx.current.state.user', ctx.state.user);
         setUserCtx(ctx.state.user);
     }, []);
 
@@ -235,15 +233,25 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
     return (
         <>
             <VStack w='full' textAlign='right' spacing={6}>
-                <Box w='full'>
+                <HStack w='full'>
+                    <Text
+                        fontStyle={'bold'}
+                        color={'primary.500'}
+                        fontSize={'2xl'}>
+                        &nbsp;Your Posts
+                    </Text>
+                    <Spacer />
                     <Button
                         variant={'primary'}
                         onClick={onOpen}
                         isLoading={isSendingPost}>
                         Create Post
                     </Button>
-                </Box>
-
+                </HStack>
+                <Divider />
+                {/* <Box w='full' textAlign={'left'}>
+                    <Divider />
+                </Box> */}
                 <SimpleGrid w='full' columns={[1, 1, 2]} spacing={[2, 6]}>
                     {userCtx?.posts &&
                         userCtx.posts
@@ -325,7 +333,6 @@ interface PostCompProps {
 
 const PostComp: React.FC<PostCompProps> = ({ post }) => {
     const dateNTime = new Date(parseInt(post.createdAt as string));
-    console.log(backend_uri);
     return (
         <>
             <Stack

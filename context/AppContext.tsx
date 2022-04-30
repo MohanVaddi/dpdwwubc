@@ -10,18 +10,7 @@ export const initialUser: User = {
     mobile: '',
     photoURL: '',
     isMobileVerified: false,
-    openToWork: {
-        userId: '',
-        username: '',
-        email: '',
-        photoURL: '',
-        phoneNumberVerified: false,
-        location: '',
-        expertise: '',
-        workingDays: [],
-        fromTime: '',
-        toTime: '',
-    },
+    openToWork: undefined,
     posts: [],
 };
 
@@ -30,10 +19,11 @@ const initialState = {
 };
 
 type AppState = typeof initialState;
+// interface AppState extends User{}
 
 type Action =
     | { type: 'SET_USER'; payload: User }
-    | { type: 'SET_LOGGEDIN'; payload: boolean }
+    | { type: 'REMOVE_OPENTOWORK' }
     | { type: 'SET_TOKEN'; payload: string };
 
 const AppContext = React.createContext<{
@@ -50,12 +40,12 @@ const reducer = (state: AppState, action: Action) => {
                     ...action.payload,
                 },
             };
-        case 'SET_LOGGEDIN':
+        case 'REMOVE_OPENTOWORK':
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    isLoggedIn: action.payload,
+                    openToWork: undefined,
                 },
             };
         case 'SET_TOKEN':

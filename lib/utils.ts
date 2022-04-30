@@ -1,26 +1,17 @@
-/**
- *
- * @param millis millis or dateString.
- * @param seperator seperates date values with given seperatore.
- * @returns date seperated with seperators.
- */
-export const getDate = (
-    millis: string | number,
-    seperator: '/' | '-' | '_' | '.' | '|' | '?'
-) => {
-    const date = new Date(millis);
-    return `${date.getDate()}${seperator}${date.getMonth()}${seperator}${date.getFullYear()}`;
-};
 
 
+export const tConvert = (time: any) => {
+    time+=':00'
+    // Check correct time format and split into components
+    time = time
+        .toString()
+        .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-/**
- *
- * @param arr array to sort chronologicaly.
- * @param property property that holds the value to sort.
- * @returns sorted array.
- */
-export const sortChronological = (arr: any[], property: string) => {
-    return arr.sort((ele1, ele2) => ele2[property] - ele1[property]);
-};
-
+    if (time.length > 1) {
+        // If time format correct
+        time = time.slice(1); // Remove full string match value
+        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join(''); // return adjusted time or original string
+}
