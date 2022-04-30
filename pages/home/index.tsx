@@ -28,7 +28,7 @@ import ProfileComp from './ProfileComp';
 import MakeAPost from './MakeAPost';
 export const FramerButton = motion<ButtonProps>(Button);
 import { UserInterface, OpenToWork, Posts } from '../../types/arbeit';
-import { OpenToWorkComp } from './OpenToWorkComp';
+import OpenToWorkComp from './OpenToWorkComp';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
 const getCurrentLocation = () => {

@@ -19,7 +19,7 @@ import { getGooglePhotoUrl, tConvert } from '../../utils/functions';
 import { capitalize } from 'lodash';
 import { backend_uri } from '../../lib/isDevEnvironment';
 
-export const OpenToWorkComp: React.FC<{}> = () => {
+const OpenToWorkComp: React.FC<{}> = () => {
     const ctx = useContext(AppContext);
 
     const removeOpenToWorkHandler = async () => {
@@ -133,3 +133,6 @@ export const OpenToWorkComp: React.FC<{}> = () => {
         );
     }
 };
+
+
+export default OpenToWorkComp
