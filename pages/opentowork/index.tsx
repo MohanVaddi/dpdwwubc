@@ -31,8 +31,6 @@ import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import React, { useContext, useEffect, useState } from 'react';
-import { Worker } from '../../types/arbeit';
-import workersData from '../../context/workerData';
 import FilterMenuCmp from '../profiles/FilterMenuCmp';
 import Head from 'next/head';
 import { UserContext } from '../../context/UserContext';

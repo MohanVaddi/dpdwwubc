@@ -40,7 +40,6 @@ import {
     CheckCircleIcon,
     WarningIcon,
 } from '@chakra-ui/icons';
-import workersData from '../../../context/workerData';
 import Layout from '../../../components/UI/Layout';
 import Header from '../../../components/UI/Header';
 
@@ -50,27 +49,27 @@ const UserPage: NextPage = () => {
 
     const cardBackgroundColor = useColorModeValue('gray.100', '#231e39');
 
-    const User: any = workersData.find(
-        (ele) => ele.uuid === parseInt(id as string)
-    );
-    if (!User) {
-        return <>No User</>;
-    }
-    const {
-        fullname,
-        profileImage,
-        age,
-        sex,
-        expertise,
-        mobile,
-        fromTime,
-        toTime,
-        address,
-    } = User;
+    // const User: any = workersData.find(
+    //     (ele) => ele.uuid === parseInt(id as string)
+    // );
+    // if (!User) {
+    //     return <>No User</>;
+    // }
+    // const {
+    //     fullname,
+    //     profileImage,
+    //     age,
+    //     sex,
+    //     expertise,
+    //     mobile,
+    //     fromTime,
+    //     toTime,
+    //     address,
+    // } = User;
     return (
         <>
             <Header />
-            <Container
+            {/* <Container
                 w='full'
                 maxW='container.lg'
                 h='100vh'
@@ -134,7 +133,7 @@ const UserPage: NextPage = () => {
                         </Center>
                     </VStack>
                 </HStack>
-            </Container>
+            </Container> */}
         </>
     );
 };

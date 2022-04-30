@@ -17,7 +17,6 @@ import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import workersData from '../../context/workerData';
 import FilterMenuCmp from '../profiles/FilterMenuCmp';
 import Head from 'next/head';
 

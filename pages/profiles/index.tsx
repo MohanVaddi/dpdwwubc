@@ -20,8 +20,6 @@ import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import { useContext, useEffect, useState } from 'react';
-import { Worker } from '../../types/arbeit';
-import workersData from '../../context/workerData';
 import FilterMenuCmp from './FilterMenuCmp';
 import WorkerCard from './WorkerCard';
 import Head from 'next/head';
@@ -124,7 +122,7 @@ const Profiles: NextPage = () => {
                                         lg: 3,
                                     }}
                                     spacing={6}>
-                                    {workersData.map(
+                                    {/* {workersData.map(
                                         ({
                                             uuid,
                                             fullname,
@@ -155,7 +153,7 @@ const Profiles: NextPage = () => {
                                                 />
                                             );
                                         }
-                                    )}
+                                    )} */}
                                 </SimpleGrid>
                             </Container>
                         </Center>
