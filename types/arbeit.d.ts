@@ -8,20 +8,6 @@ export interface addressInterface {
     pincode: number;
 }
 
-export interface Worker {
-    uuid: number;
-    fullname: string;
-    profileImage: string;
-    age: number;
-    sex: 'male' | 'female' | 'prefer not to say';
-    expertise: 'Barber' | 'Carpenter' | 'Painter' | 'Mason' | 'Physical Labour';
-    mobile: number;
-    fromTime: string;
-    toTime: string;
-    address: addressInterface;
-    location: string;
-}
-
 export interface UserData {
     displayName: string;
     phoneNumberValidated: boolean;
@@ -54,13 +40,13 @@ export interface OpenToWork {
     mobile?: string;
     email: string;
     photoURL?: string;
-    phoneNumberVerified: boolean;
+    isMobileVerified: boolean;
     location: string;
     expertise: string;
     workingDays: WorkingDays[];
     fromTime: string;
     toTime: string;
-    
+    createdAt?: string;
 }
 
 export interface Posts {
@@ -76,4 +62,10 @@ export interface Posts {
     location: string;
     expertiseNeeded: string;
     createdAt?: string;
+}
+
+
+export interface LatLngLiteral {
+    lat: number;
+    lng: number;
 }
