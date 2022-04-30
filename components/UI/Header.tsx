@@ -28,7 +28,7 @@ import { auth } from '../../lib/firebase';
 import { UserContext } from './../../context/UserContext';
 import { useRouter } from 'next/router';
 import { ReactNode, useContext } from 'react';
-import { lowerCase } from 'lodash';
+import { capitalize, lowerCase } from 'lodash';
 
 interface NavLinkProps {
     children: ReactNode;
@@ -147,24 +147,7 @@ const Header: React.FC<{}> = () => {
                             {/* <MenuItem>Your Servers</MenuItem> */}
                             {isMobile && (
                                 <>
-                                    <MenuItem
-                                        onClick={() => {
-                                            router.push('/home');
-                                        }}>
-                                        Home
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            router.push('/posts');
-                                        }}>
-                                        Posts
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            router.push('/profiles');
-                                        }}>
-                                        Profiles
-                                    </MenuItem>
+                                    <CustomMenuItem />
                                 </>
                             )}
                             <MenuItem>Set OpenToWork</MenuItem>
@@ -181,6 +164,22 @@ const Header: React.FC<{}> = () => {
                 </Flex>
             </Flex>
         </Box>
+    );
+};
+
+const CustomMenuItem: React.FC<{}> = () => {
+    const routes = ['/home', '/posts', '/profiles'];
+    return (
+        <>
+            {routes.map((route, idx) => {
+                console.log('route', route);
+                return (
+                    <NavLink key={idx} href={route}>
+                        <MenuItem>{capitalize(route.split('/')[1])}</MenuItem>
+                    </NavLink>
+                );
+            })}
+        </>
     );
 };
 
