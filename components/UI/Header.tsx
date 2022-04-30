@@ -79,15 +79,19 @@ const Header: React.FC<{}> = () => {
                         as={'nav'}
                         spacing={4}
                         display={{ base: 'none', md: 'flex' }}>
-                        <NavLink href={'/home'} key={'home'}>
-                            {'Home'}
-                        </NavLink>
-                        <NavLink href={'/posts'} key={'posts'}>
-                            {'Posts'}
-                        </NavLink>
-                        <NavLink href={'/profiles'} key={'profiles'}>
-                            {'Profiles'}
-                        </NavLink>
+                        {!isMobile && (
+                            <>
+                                <NavLink href={'/home'} key={'home'}>
+                                    Home
+                                </NavLink>
+                                <NavLink href={'/posts'} key={'posts'}>
+                                    Posts
+                                </NavLink>
+                                <NavLink href={'/profiles'} key={'profiles'}>
+                                    Profiles
+                                </NavLink>
+                            </>
+                        )}
                     </HStack>
                 </HStack>
                 <Flex
@@ -143,22 +147,23 @@ const Header: React.FC<{}> = () => {
                             {/* <MenuItem>Your Servers</MenuItem> */}
                             {isMobile && (
                                 <>
-                                    <MenuItem>
-                                        <NavLink href={'/home'} key={'home'}>
-                                            {'Home'}
-                                        </NavLink>
+                                    <MenuItem
+                                        onClick={() => {
+                                            router.push('/home');
+                                        }}>
+                                        Home
                                     </MenuItem>
-                                    <MenuItem>
-                                        <NavLink href={'/posts'} key={'posts'}>
-                                            {'Posts'}
-                                        </NavLink>
+                                    <MenuItem
+                                        onClick={() => {
+                                            router.push('/posts');
+                                        }}>
+                                        Posts
                                     </MenuItem>
-                                    <MenuItem>
-                                        <NavLink
-                                            href={'/profiles'}
-                                            key={'profiles'}>
-                                            {'Profiles'}
-                                        </NavLink>
+                                    <MenuItem
+                                        onClick={() => {
+                                            router.push('/profiles');
+                                        }}>
+                                        Profiles
                                     </MenuItem>
                                 </>
                             )}
