@@ -44,7 +44,6 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
             w='100%'
             rowSpan={0}
             // padding={6}
-            align='center'
             alignContent={'center'}>
             <VStack>
                 <Box borderRadius={'50%'}>

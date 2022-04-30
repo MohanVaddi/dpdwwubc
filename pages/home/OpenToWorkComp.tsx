@@ -1,13 +1,15 @@
 import {
-    Button, Center,
+    Button,
+    Center,
     SimpleGrid,
     Text,
     Flex,
     Box,
-    VStack, Image,
+    VStack,
+    Image,
     ListItem,
     ListIcon,
-    List
+    List,
 } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/md';
 import React, { useContext } from 'react';
@@ -58,7 +60,8 @@ const OpenToWorkComp: React.FC<{}> = () => {
                                 ctx.state.user.openToWork.photoURL as string,
                                 '300'
                             )}
-                            rounded='full' />
+                            rounded='full'
+                        />
                     </Center>
                     <VStack
                         w='full'
@@ -79,7 +82,7 @@ const OpenToWorkComp: React.FC<{}> = () => {
                             {ctx.state.user.openToWork.email}
                         </Text>
                         {ctx.state.user.openToWork &&
-                            ctx.state.user.openToWork.isMobileVerified ? (
+                        ctx.state.user.openToWork.isMobileVerified ? (
                             <Text fontWeight='500' fontSize={'sm'} w='full'>
                                 {ctx.state.user.openToWork.mobile}
                             </Text>
@@ -104,14 +107,15 @@ const OpenToWorkComp: React.FC<{}> = () => {
                                         <ListItem key={idx}>
                                             <ListIcon
                                                 as={MdCheckCircle}
-                                                color='green.500' />
+                                                color='green.500'
+                                            />
                                             {capitalize(ele)}
                                         </ListItem>
                                     );
                                 }
                             )}
                         </List>
-                        <Box w='full' align='right'>
+                        <Box w='full'>
                             <Button
                                 onClick={removeOpenToWorkHandler}
                                 colorScheme='red'>
@@ -134,5 +138,4 @@ const OpenToWorkComp: React.FC<{}> = () => {
     }
 };
 
-
-export default OpenToWorkComp
+export default OpenToWorkComp;
