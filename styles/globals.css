@@ -34,3 +34,22 @@ a {
     color: transparent;
     -webkit-text-fill-color: transparent;
 }
+
+.map-container {
+    height: 400px;
+    margin: 12px 0;
+}
+
+.sidebar {
+    background-color: rgba(35, 55, 75, 0.9);
+    color: #fff;
+    padding: 6px 12px;
+    font-family: monospace;
+    z-index: 1;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: fit-content;
+    margin: 12px 0;
+    border-radius: 4px;
+}
