@@ -21,7 +21,7 @@ import Layout from '../../components/UI/Layout';
 import { MdLocationSearching } from 'react-icons/md';
 import { useContext, useEffect, useState } from 'react';
 import FilterMenuCmp from './FilterMenuCmp';
-import WorkerCard from './WorkerCard';
+import WorkerCard from './ProfileCard';
 import Head from 'next/head';
 import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/router';
@@ -29,6 +29,10 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../lib/firebase';
 import LoadingModal from '../../components/UI/LoadingModal';
 import AppContext from '../../context/AppContext';
+import axios, { AxiosResponse } from 'axios';
+import { OpenToWork, UserInterface } from '../../types/arbeit';
+import { backend_uri } from '../../lib/isDevEnvironment';
+import ProfileCard from './ProfileCard';
 export const FramerButton = motion<ButtonProps>(Button);
 
 const getCurrentLocation = () => {
@@ -37,17 +41,21 @@ const getCurrentLocation = () => {
     });
 };
 
-const Profiles: NextPage = () => {
+interface ProfilesPageProps {
+    children?: React.ReactNode;
+    profiles: OpenToWork[];
+}
+
+const Profiles: NextPage<ProfilesPageProps> = (props) => {
     const [user, loading] = useAuthState(auth);
     const ctx = useContext(AppContext);
-    const [userCtx, setUserCtx] = useState(ctx.state.user);
-    const [searchedUsers, setSearchedUsers] = useState<boolean | Worker[]>(
-        false
-    );
+    const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>(ctx.state.user);
 
     useEffect(() => {
-        console.log('context in profiles', ctx.state.user);
-    },[])
+        if (user) {
+            setUserFrmCtx(ctx.state.user);
+        }
+    }, [user, ctx.state.user]);
 
     if (loading) {
         return <LoadingModal />;
@@ -63,52 +71,7 @@ const Profiles: NextPage = () => {
                                 content='initial-scale=1.0, width=device-width'
                             />
                         </Head>
-                        <Grid
-                            w='full'
-                            templateColumns={{
-                                base: 'repeat(2,1fr)',
-                                md: 'repeat(2,1fr)',
-                                lg: 'repeat(5,1fr)',
-                            }}
-                            templateRows={{
-                                base: 'repeat(2,1fr)',
-                                md: 'repeat(2,1fr)',
-                                lg: 'repeat(1,fr)',
-                            }}
-                            gap={1}>
-                            <GridItem w='full'>
-                                <Button
-                                    w='full'
-                                    variant={'primary'}
-                                    leftIcon={<MdLocationSearching />}
-                                    onClick={getCurrentLocation}
-                                    boxShadow={'sm'}>
-                                    Get Location
-                                </Button>
-                            </GridItem>
-                            <GridItem w='full'>
-                                <FilterMenuCmp />
-                            </GridItem>
-                            <GridItem colSpan={3} w='full'>
-                                <InputGroup>
-                                    <InputLeftElement
-                                        pointerEvents='none'
-                                        // eslint-disable-next-line react/no-children-prop
-                                        children={
-                                            <Search2Icon color='gray.300' />
-                                        }
-                                    />
-                                    <Input
-                                        boxShadow={'sm'}
-                                        _focus={{
-                                            borderColor: 'black',
-                                        }}
-                                        type='text'
-                                        placeholder='Search'
-                                    />
-                                </InputGroup>
-                            </GridItem>
-                        </Grid>
+
                         <Center w='full'>
                             <Container
                                 maxW='container.lg'
@@ -122,38 +85,14 @@ const Profiles: NextPage = () => {
                                         lg: 3,
                                     }}
                                     spacing={6}>
-                                    {/* {workersData.map(
-                                        ({
-                                            uuid,
-                                            fullname,
-                                            profileImage,
-                                            age,
-                                            sex,
-                                            expertise,
-                                            mobile,
-                                            fromTime,
-                                            toTime,
-                                            address,
-                                            location,
-                                        }) => {
-                                            return (
-                                                <WorkerCard
-                                                    key={uuid}
-                                                    uuid={uuid}
-                                                    fullname={fullname}
-                                                    profileImage={profileImage}
-                                                    age={age}
-                                                    sex={sex}
-                                                    expertise={expertise}
-                                                    mobile={mobile}
-                                                    fromTime={fromTime}
-                                                    toTime={toTime}
-                                                    address={address}
-                                                    location={location}
-                                                />
-                                            );
-                                        }
-                                    )} */}
+                                    {props.profiles.map((profile, idx) => {
+                                        return (
+                                            <ProfileCard
+                                                key={idx}
+                                                profile={profile}
+                                            />
+                                        );
+                                    })}
                                 </SimpleGrid>
                             </Container>
                         </Center>
@@ -163,5 +102,28 @@ const Profiles: NextPage = () => {
         );
     }
 };
+
+export async function getStaticProps() {
+    const response: AxiosResponse<OpenToWork[]> = await axios.get(
+        `${backend_uri}/profiles`
+    );
+
+    const profiles = response.data;
+
+    // const markerPoints = profiles.map((post) => {
+    //     return {
+    //         lat: parseInt(post.location.split(' ')[0] as string),
+    //         lng: parseInt(post.location.split(' ')[1] as string),
+    //     };
+    // });
+
+    return {
+        props: {
+            profiles,
+            // markerPoints,
+        },
+        revalidate: 10,
+    };
+}
 
 export default Profiles;

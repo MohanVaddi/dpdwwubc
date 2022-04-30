@@ -331,7 +331,7 @@ interface PostCompProps {
     post: Posts;
 }
 
-const PostComp: React.FC<PostCompProps> = ({ post }) => {
+export const PostComp: React.FC<PostCompProps> = ({ post }) => {
     const dateNTime = new Date(parseInt(post.createdAt as string));
     return (
         <>

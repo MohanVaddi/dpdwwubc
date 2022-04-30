@@ -13,6 +13,7 @@ import { useUserData } from '../lib/hooks';
 // import client from '../graphql/apollo-client';
 import { useState } from 'react';
 import { LocContextProvider } from '../context/LocContext';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
     const { user } = useUserData();

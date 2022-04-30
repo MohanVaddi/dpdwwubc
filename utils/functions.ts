@@ -1,3 +1,5 @@
+import { WorkingDays } from '../types/arbeit';
+
 export function tConvert(time: any) {
     time += ':00';
     time = time
@@ -59,4 +61,32 @@ export const capitalize = (str: string) => {
 
 export const getGooglePhotoUrl = (url: string, pixels: string) => {
     return `${url.split('=')[0]}=s${pixels}`;
+};
+
+export const checkIfWorkingOnThatDay = (
+    day: string | undefined,
+    workingDays: WorkingDays[]
+) => {
+    if (!day) {
+        return false;
+    } else {
+        switch (day) {
+            case 'M':
+                return workingDays.includes('monday');
+            case 'T':
+                return workingDays.includes('tuesday');
+            case 'W':
+                return workingDays.includes('wednesday');
+            case 'Th':
+                return workingDays.includes('thursday');
+            case 'F':
+                return workingDays.includes('friday');
+            case 'Sa':
+                return workingDays.includes('saturday');
+            case 'S':
+                return workingDays.includes('sunday');
+            default:
+                return false;
+        }
+    }
 };

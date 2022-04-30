@@ -89,18 +89,18 @@ const Home: NextPage = () => {
                                     lazyBehavior='keepMounted'
                                     isLazy={true}>
                                     <TabList>
+                                        {/* <Tab>Profile</Tab> */}
                                         <Tab>Profile</Tab>
-                                        <Tab>Open To Work</Tab>
                                         <Tab>Posts</Tab>
                                     </TabList>
                                     <TabPanels p='2rem'>
-                                        <TabPanel>
+                                        {/* <TabPanel>
                                             <ProfileComp
                                                 user={
                                                     userFrmCtx as UserInterface
                                                 }
                                             />
-                                        </TabPanel>
+                                        </TabPanel> */}
                                         <TabPanel>
                                             <OpenToWorkComp />
                                         </TabPanel>

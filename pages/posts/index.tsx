@@ -46,20 +46,12 @@ import AppContext from '../../context/AppContext';
 // import Map from '../../components/Map';
 import dynamic from 'next/dynamic';
 import LocContext from '../../context/LocContext';
+import Mapbox from 'react-map-gl/dist/esm/mapbox/mapbox';
+import { MapboxMap } from 'react-map-gl';
 const FramerButton = motion<ButtonProps>(Button);
 
-var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-//@ts-ignore
-// import mapboxgl from '!mapbox-gl';
-
-mapboxgl.accessToken =
-    'pk.eyJ1IjoibW9oYW5rZW5vYmkiLCJhIjoiY2wybGV6NDVmMGNwNjNqbmsyczIwOW1nYiJ9.PuddGS4XNYZXHDDeskldpg';
-
-const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition((e) => {
-        console.log(e.coords);
-    });
-};
+import MapBox from '../../components/MapBox';
+import { PostComp } from '../home/MakeAPost';
 
 interface PostPageProps {
     children?: React.ReactNode;
@@ -89,14 +81,7 @@ interface PostPageProps {
 const Posts: NextPage<PostPageProps> = (props) => {
     const ctx = useContext(AppContext);
 
-    const [pageIsMounted, setPageIsMounted] = useState(false);
-
-    const map = useRef<any>(null);
-
-    const locCtx = useContext(LocContext);
-    const [lat, setLat] = useState(locCtx.state.location.lat);
-    const [lng, setLng] = useState(locCtx.state.location.lng);
-    const [zoom, setZoom] = useState(5);
+    const locCtx = useRef(useContext(LocContext));
 
     const [user, loading] = useAuthState(auth);
 
@@ -105,45 +90,20 @@ const Posts: NextPage<PostPageProps> = (props) => {
     useEffect(() => {
         if (user) {
             setUserFrmCtx(ctx.state.user);
-            locCtx.dispatch({
-                type: 'SET_MARKERPOINTS',
-                payload: props.markerPoints,
-            });
         }
     }, [user, ctx.state.user]);
 
     useEffect(() => {
-        setPageIsMounted(true);
-
-        if (map.current) return;
-        map.current = new mapboxgl.Map({
-            container: 'my-map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lat, lng],
-            zoom: zoom,
+        locCtx.current.dispatch({
+            type: 'SET_MARKERPOINTS',
+            payload: props.markerPoints,
         });
-
-        map.current.addControl(
-            new mapboxgl.GeolocateControl({
-                positionOptions: {
-                    enableHighAccuracy: true,
-                },
-                trackUserLocation: true,
-            })
-        );
-
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-    }, []);
+    }, [props.markerPoints]);
 
     if (loading) {
         return (
             <>
                 <LoadingModal />
-                <div id='my-map' className='map-container' />
             </>
         );
     } else {
@@ -153,37 +113,22 @@ const Posts: NextPage<PostPageProps> = (props) => {
                     <Layout>
                         <Head>
                             <title>Home</title>
-                            <link
-                                href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css'
-                                rel='stylesheet'
-                            />
-
                             <meta
                                 name='viewport'
                                 content='initial-scale=1.0, width=device-width'
                             />
                         </Head>
                         {/* {<DynamicMap />} */}
-                        <div>
-                            <div className='sidebar'>
-                                Longitude: {lng} | Latitude: {lat} | Zoom:{' '}
-                                {zoom}
-                            </div>
-                            <div
-                                id='my-map'
-                                style={{ height: 400, width: '100%' }}
-                            />
-                        </div>
-                        <Flex
-                            h='full'
-                            flexDirection={{ base: 'column', xl: 'column' }}
-                            gap={10}>
+                        <MapBox />
+                        <SimpleGrid
+                            w='full'
+                            columns={[1, 1, 2]}
+                            spacing={[2, 6]}
+                            mt={10}>
                             {props.posts.map((post, idx) => {
-                                return (
-                                    <Text key={post.postId}>{post.title}</Text>
-                                );
+                                return <PostComp key={idx} post={post} />;
                             })}
-                        </Flex>
+                        </SimpleGrid>
                     </Layout>
                 )}
             </>

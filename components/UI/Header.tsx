@@ -25,10 +25,10 @@ import {
     Link,
 } from '@chakra-ui/react';
 import { auth } from '../../lib/firebase';
-import { UserContext } from './../../context/UserContext';
 import { useRouter } from 'next/router';
 import { ReactNode, useContext } from 'react';
 import { capitalize, lowerCase } from 'lodash';
+import AppContext from '../../context/AppContext';
 
 interface NavLinkProps {
     children: ReactNode;
@@ -51,6 +51,7 @@ const NavLink: React.FC<NavLinkProps> = ({ children, href }) => (
 );
 
 const Header: React.FC<{}> = () => {
+    const ctx = useContext(AppContext);
     const router = useRouter();
     const isMobile = useBreakpointValue({
         base: true,
@@ -124,14 +125,20 @@ const Header: React.FC<{}> = () => {
                                 variant={'link'}
                                 cursor={'pointer'}
                                 minW={0}>
-                                <Avatar size={'sm'} src={`logo.png`} />
+                                <Avatar
+                                    size={'sm'}
+                                    src={`${ctx.state.user.photoURL}`}
+                                />
                             </MenuButton>
                         </Center>
 
                         <MenuList alignItems={'center'}>
                             <br />
                             <Center>
-                                <Avatar size={'2xl'} src={`/logo.png`} />
+                                <Avatar
+                                    size={'2xl'}
+                                    src={`${ctx.state.user.photoURL}`}
+                                />
                             </Center>
                             <br />
                             <Center>
@@ -150,7 +157,6 @@ const Header: React.FC<{}> = () => {
                                     <CustomMenuItem />
                                 </>
                             )}
-                            <MenuItem>Set OpenToWork</MenuItem>
                             <MenuItem
                                 onClick={() => {
                                     auth.signOut();
