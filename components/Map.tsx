@@ -27,13 +27,13 @@ const Map: React.FC<MapProps> = () => {
         lng: ctx.state.location.lng,
     });
 
-    const [markerPoints, setMarkerPoints] = useState<LatLngLiteral[]>(
-        ctx.state.markerPoints
-    );
+    // const [markerPoints, setMarkerPoints] = useState<LatLngLiteral[]>(
+    //     ctx.state.markerPoints
+    // );
 
     // console.log('mak', markerPoints);
 
-    // const markerPoints: LatLngLiteral[] = [currentLoc];
+    const markerPoints: LatLngLiteral[] = [currentLoc];
     useEffect(() => {
         if (ctx.state) {
             setCurrentLoc({
@@ -54,18 +54,18 @@ const Map: React.FC<MapProps> = () => {
                 attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
                 url='https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibW9oYW5rZW5vYmkiLCJhIjoiY2wybGV6NDVmMGNwNjNqbmsyczIwOW1nYiJ9.PuddGS4XNYZXHDDeskldpg'
             />
-            {/* <Marker icon={icon} position={markerPoints[0]}>
+            <Marker icon={icon} position={markerPoints[0]}>
                 <Popup>
                     <br /> Easily customizable.
                 </Popup>
-            </Marker> */}
-            {markerPoints.map((point, idx) => (
+            </Marker>
+            {/* {markerPoints.map((point, idx) => (
                 <Marker icon={icon} key={idx} position={point}>
                     <Popup>
                         <br /> Easily customizable.
                     </Popup>
                 </Marker>
-            ))}
+            ))} */}
         </MapContainer>
     );
 };

@@ -120,7 +120,7 @@ const Posts: NextPage<PostPageProps> = (props) => {
                             />
                         </Head>
                         {<DynamicMap />}
-                        <div id='my-map' style={{ height: 500, width: 500 }} />
+                        {/* <div id='my-map' style={{ height: 500, width: 500 }} /> */}
                         <Flex
                             h='full'
                             flexDirection={{ base: 'column', xl: 'column' }}

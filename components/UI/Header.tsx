@@ -143,9 +143,23 @@ const Header: React.FC<{}> = () => {
                             {/* <MenuItem>Your Servers</MenuItem> */}
                             {isMobile && (
                                 <>
-                                    <MenuItem>Find Work</MenuItem>
-                                    <MenuItem>Post Work</MenuItem>
-                                    <MenuItem>Search Profiles</MenuItem>
+                                    <MenuItem>
+                                        <NavLink href={'/home'} key={'home'}>
+                                            {'Home'}
+                                        </NavLink>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <NavLink href={'/posts'} key={'posts'}>
+                                            {'Posts'}
+                                        </NavLink>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <NavLink
+                                            href={'/profiles'}
+                                            key={'profiles'}>
+                                            {'Profiles'}
+                                        </NavLink>
+                                    </MenuItem>
                                 </>
                             )}
                             <MenuItem>Set OpenToWork</MenuItem>
