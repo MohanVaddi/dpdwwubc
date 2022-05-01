@@ -63,6 +63,9 @@ const Posts: NextPage<PostPageProps> = (props) => {
         )
     );
 
+    const [lat, setLat] = useState<number | undefined>(undefined);
+    const [lng, setLng] = useState<number | undefined>(undefined);
+
     useEffect(() => {
         if (user) {
             setUserFrmCtx(ctx.state.user);
@@ -77,6 +80,12 @@ const Posts: NextPage<PostPageProps> = (props) => {
     }, [props.markerPoints]);
 
     sortChronological(posts, 'createdAt');
+
+    const locateHandler = (lng: number, lat: number) => {
+        console.log(`Lat ${lat}, lng ${lng}`);
+        setLng(lng);
+        setLat(lat);
+    };
 
     if (loading) {
         return <LoadingModal />;
@@ -93,7 +102,7 @@ const Posts: NextPage<PostPageProps> = (props) => {
                             />
                         </Head>
                         {/* {<DynamicMap />} */}
-                        <MapBox posts={posts} />
+                        <MapBox posts={posts} locateLat={lat} locateLng={lng} />
                         {ctx.state.user.openToWork && (
                             <SimpleGrid
                                 w='full'
@@ -102,7 +111,8 @@ const Posts: NextPage<PostPageProps> = (props) => {
                                 mt={10}>
                                 {posts.map((post, idx) => {
                                     return (
-                                        <PostCompWithHireFunctionality
+                                        <PostCompWithLocate
+                                            locate={locateHandler}
                                             key={idx}
                                             post={post}
                                         />
@@ -136,8 +146,8 @@ export async function getStaticProps() {
 
     const markerPoints = posts.map((post) => {
         return {
-            lat: parseInt(post.location.split(' ')[0] as string),
-            lng: parseInt(post.location.split(' ')[1] as string),
+            lat: parseFloat(post.location.split(' ')[0] as string),
+            lng: parseFloat(post.location.split(' ')[1] as string),
         };
     });
 
@@ -152,14 +162,20 @@ export async function getStaticProps() {
 
 interface PostCompProps {
     post: Posts;
+    locate: (lng: number, lat: number) => void;
 }
 
-const PostCompWithHireFunctionality: React.FC<PostCompProps> = ({ post }) => {
+const PostCompWithLocate: React.FC<PostCompProps> = ({ post, locate }) => {
     const dateNTime = new Date(parseInt(post.createdAt as string));
 
-    const setPostsToWaiting = async() => {
-        
-    }
+    const setPostsToWaiting = async () => {};
+
+    const locateHandler = () => {
+        locate(
+            parseFloat(post.location.split(' ')[1] as string),
+            parseFloat(post.location.split(' ')[0] as string)
+        );
+    };
 
     return (
         <>
@@ -197,6 +213,15 @@ const PostCompWithHireFunctionality: React.FC<PostCompProps> = ({ post }) => {
                     <HStack w='full'>
                         <Text>{post.expertiseNeeded.toLocaleUpperCase()}</Text>
                         <Text>{post.mobile}</Text>
+                    </HStack>
+
+                    <HStack w='full'>
+                        <Button
+                            variant={'solid'}
+                            onClick={locateHandler}
+                            colorScheme='blue'>
+                            Locate on map
+                        </Button>
                     </HStack>
 
                     {/* <HStack w='full'>

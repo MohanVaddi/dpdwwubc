@@ -14,6 +14,7 @@ import {
     Spinner,
     Stack,
     Skeleton,
+    Box,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { NextPage } from 'next';
@@ -84,22 +85,45 @@ const Profiles: NextPage<ProfilesPageProps> = (props) => {
                                 w='full'
                                 h='full'
                                 paddingTop={4}>
-                                <SimpleGrid
-                                    columns={{
-                                        base: 1,
-                                        md: 2,
-                                        lg: 3,
-                                    }}
-                                    spacing={6}>
-                                    {filteredProfiles.map((profile, idx) => {
-                                        return (
-                                            <ProfileCard
-                                                key={idx}
-                                                profile={profile}
-                                            />
-                                        );
-                                    })}
-                                </SimpleGrid>
+                                {ctx.state.user.openToWork ? (
+                                    <>
+                                        <SimpleGrid
+                                            columns={{
+                                                base: 1,
+                                                md: 2,
+                                                lg: 3,
+                                            }}
+                                            spacing={6}>
+                                            {filteredProfiles.map(
+                                                (profile, idx) => {
+                                                    return (
+                                                        <ProfileCard
+                                                            key={idx}
+                                                            profile={profile}
+                                                        />
+                                                    );
+                                                }
+                                            )}
+                                        </SimpleGrid>
+                                        {filteredProfiles.length === 0 && (
+                                            <Center
+                                                w='full'
+                                                textAlign={'center'}>
+                                                <Text
+                                                    fontSize={'lg'}
+                                                    color='red.500'>
+                                                    No Profiles Found.
+                                                </Text>
+                                            </Center>
+                                        )}
+                                    </>
+                                ) : (
+                                    <Center w='full' textAlign={'center'}>
+                                        <Text fontSize={'lg'} color='red.500'>
+                                            Set your profile to pubic
+                                        </Text>
+                                    </Center>
+                                )}
                             </Container>
                         </Center>
                     </Layout>

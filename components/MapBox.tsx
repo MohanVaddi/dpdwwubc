@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import LocContext from '../context/LocContext';
+import { Marker } from 'react-map-gl';
 
 // var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 import mapboxgl from 'mapbox-gl';
@@ -14,6 +15,8 @@ mapboxgl.accessToken =
 interface MapBoxProps {
     posts?: Posts[];
     profiles?: OpenToWork[];
+    locateLat?: number;
+    locateLng?: number;
 }
 
 const addLocationPointsToPosts = (arr: Posts[]) => {
@@ -21,15 +24,22 @@ const addLocationPointsToPosts = (arr: Posts[]) => {
         return {
             ...post,
             locationPoint: {
-                lat: parseInt(post.location.split(' ')[0] as string),
-                lng: parseInt(post.location.split(' ')[1] as string),
+                lat: parseFloat(post.location.split(' ')[0] as string),
+                lng: parseFloat(post.location.split(' ')[1] as string),
             },
         };
     });
     return modArr;
 };
 
-const MapBox: React.FC<MapBoxProps> = ({ posts, profiles }) => {
+// let customMarker: mapboxgl.Marker | undefined = undefined;
+
+const MapBox: React.FC<MapBoxProps> = ({
+    posts,
+    profiles,
+    locateLat = undefined,
+    locateLng = undefined,
+}) => {
     const locCtx = useContext(LocContext);
     const map = useRef<MapboxMap | null>(null);
 
@@ -40,12 +50,21 @@ const MapBox: React.FC<MapBoxProps> = ({ posts, profiles }) => {
     const [zoom, setZoom] = useState<number>(10);
 
     useEffect(() => {
+        if (locateLat === undefined || locateLng === undefined) {
+        } else {
+            console.log('came here');
+            map.current?.setCenter([locateLng, locateLat]);
+            map.current?.setZoom(17);
+        }
+    }, [locateLat, locateLng]);
+
+    useEffect(() => {
         setPageIsMounted(true);
 
         if (map.current) return;
         map.current = new mapboxgl.Map({
             container: 'my-map',
-            style: 'mapbox://styles/mapbox/streets-v11',
+            style: 'mapbox://styles/mapbox/satellite-v9',
             center: [lng, lat],
             zoom: zoom,
             attributionControl: false,
@@ -72,8 +91,9 @@ const MapBox: React.FC<MapBoxProps> = ({ posts, profiles }) => {
             rotation: 45,
         })
             .setPopup(
-                new mapboxgl.Popup({ offset: 25 }) // add popups
-                    .setHTML(`<h3>${'Your Location'}</h3>`)
+                new mapboxgl.Popup({ offset: 25 }).setHTML(
+                    `<h3>${'Your Location'}</h3>`
+                )
             )
             .setLngLat([lng, lat])
             .addTo(map.current);
@@ -85,22 +105,25 @@ const MapBox: React.FC<MapBoxProps> = ({ posts, profiles }) => {
                     color: 'blue',
                 })
                     .setPopup(
-                        new mapboxgl.Popup({ offset: 25 }) // add popups
-                            .setHTML(
-                                `<h3>${ele.title}</h3><p>${ele.description}</p>`
-                            )
+                        new mapboxgl.Popup({ offset: 25 }).setHTML(
+                            `<h3>${ele.title}</h3><p>${ele.description}</p>`
+                        )
                     )
                     .setLngLat([ele.locationPoint.lng, ele.locationPoint.lat])
                     .addTo(map.current!);
             });
         }
 
-        // const bbox = [
-        //     [-79, 43],
-        //     [-73, 45],
-        // ];
-        // map.current.fitBounds(bbox, {
-        //     padding: 20,
+        // map.current.on('click', (e) => {
+        //     if (customMarker) {
+        //         customMarker.remove();
+        //     }
+        //     console.log(e.lngLat);
+        //     customMarker = new mapboxgl.Marker({
+        //         color: 'red',
+        //     })
+        //         .setLngLat([e.lngLat.lng, e.lngLat.lat])
+        //         .addTo(map.current!);
         // });
     }, []);
     return (

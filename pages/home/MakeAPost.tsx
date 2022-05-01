@@ -42,12 +42,23 @@ import { truncateAndAddElipsis } from '../../utils/functions';
 import { MdCall } from 'react-icons/md';
 import { professions } from '../../lib/config';
 import { backend_uri } from '../../lib/isDevEnvironment';
+import MapBox from '../../components/MapBox';
+import LocContext from '../../context/LocContext';
+import mapboxgl from 'mapbox-gl';
+
+import { MapboxMap } from 'react-map-gl';
+//@ts-ignore
+// import mapboxgl from '!mapbox-gl';
+
+mapboxgl.accessToken =
+    'pk.eyJ1IjoibW9oYW5rZW5vYmkiLCJhIjoiY2wybGV6NDVmMGNwNjNqbmsyczIwOW1nYiJ9.PuddGS4XNYZXHDDeskldpg';
 
 interface MakeAPostProps {}
 
 const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
     const toast = useToast();
     const ctx = useContext(AppContext);
+
     const [userCtx, setUserCtx] = useState<UserInterface>(ctx.state.user);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [isSendingPost, setIsSendingPost] = useState<boolean>(false);
@@ -57,7 +68,16 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
     const [location, setLocation] = useState<
         GeolocationCoordinates | undefined
     >(undefined);
+
+    const [lng, setLng] = useState<number | undefined>(undefined);
+    const [lat, setLat] = useState<number | undefined>(undefined);
     const initialRef = React.useRef<any>();
+
+    const setLngLatHandler = (lng: number, lat: number) => {
+        console.log(`Lng : ${lng}, Lat : ${lat}`);
+        setLng(lng);
+        setLat(lat);
+    };
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((e) => {
@@ -127,20 +147,34 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
         console.log(profession);
         console.log(location);
 
-        // !!! STRICT CHECK
-        // ! checking if location is provided or not.
-        if (!location) {
+        console.log(lng, lat);
+
+        if (lng === undefined || lat === undefined) {
             toast({
-                title: 'No Location.',
-                description: `Location not provided.`,
+                title: 'Marker Unavailable.',
+                description: `Marker not set.`,
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
             });
             setIsSendingPost(false);
-
             return;
         }
+
+        // !!! STRICT CHECK
+        // ! checking if location is provided or not.
+        // if (!location) {
+        //     toast({
+        //         title: 'No Location.',
+        //         description: `Location not provided.`,
+        //         status: 'error',
+        //         duration: 4000,
+        //         isClosable: true,
+        //     });
+        //     setIsSendingPost(false);
+
+        //     return;
+        // }
 
         // TODO : Check if the user's mobile is verified or not. If not redirect to /verifyMobile route.
 
@@ -201,7 +235,7 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
                     email: userCtx.email,
                     title,
                     description,
-                    location: `${location.latitude} ${location.longitude}`,
+                    location: `${lat} ${lng}`,
                     expertiseNeeded: profession,
                     createdAt: new Date().getTime(),
                 }
@@ -302,7 +336,7 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
                                 />
                             </FormControl>
 
-                            <FormControl mt='4'>
+                            <FormControl my='4'>
                                 <FormLabel>Profession</FormLabel>
                                 <Select
                                     onChange={(e) => {
@@ -311,6 +345,7 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
                                     options={professions}
                                 />
                             </FormControl>
+                            <CustMapWithMarker setLngLat={setLngLatHandler} />
                         </ModalBody>
                         <ModalFooter>
                             <Button
@@ -376,13 +411,13 @@ export const PostComp: React.FC<PostCompProps> = ({ post }) => {
                             href={`tel:${post.mobile && post.mobile}`}
                             passHref
                             textDecoration={'none'}> */}
-                        <Button
+                        {/* <Button
                             colorScheme={'green'}
                             variant='outline'
                             rounded={'xl'}
                             rightIcon={<MdCall />}>
                             Call
-                        </Button>
+                        </Button> */}
                         {/* </Link> */}
                     </HStack>
                 </VStack>
@@ -391,4 +426,69 @@ export const PostComp: React.FC<PostCompProps> = ({ post }) => {
     );
 };
 
+interface CustMapWithMarkerProps {
+    setLngLat?: any;
+}
+const CustMapWithMarker: React.FC<CustMapWithMarkerProps> = ({ setLngLat }) => {
+    const locCtx = useContext(LocContext);
+    const map = useRef<MapboxMap | null>(null);
+    const [pageIsMounted, setPageIsMounted] = useState(false);
+    // const [lat, setLat] = useState<number>(locCtx.state.location.lat);
+    // const [lng, setLng] = useState<number>(locCtx.state.location.lng);
+    // const [zoom, setZoom] = useState<number>(10);
+    let customMarker = useRef<mapboxgl.Marker | undefined>(undefined);
+
+    useEffect(() => {
+        setPageIsMounted(true);
+
+        if (map.current) return;
+        map.current = new mapboxgl.Map({
+            container: 'cust_map',
+            style: 'mapbox://styles/mapbox/satellite-v9',
+            center: [locCtx.state.location.lng, locCtx.state.location.lat],
+            zoom: 12,
+            attributionControl: false,
+        });
+
+        map.current.addControl(
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true,
+                },
+                trackUserLocation: true,
+            })
+        );
+        map.current.addControl(new mapboxgl.FullscreenControl());
+
+        // map.current.on('move', () => {
+        //     setLng(parseFloat(map.current!.getCenter().lng.toFixed(4)));
+        //     setLat(parseFloat(map.current!.getCenter().lat.toFixed(4)));
+        //     setZoom(parseFloat(map.current!.getZoom().toFixed(2)));
+        // });
+
+        map.current.on('click', (e) => {
+            if (customMarker.current) {
+                customMarker.current.remove();
+            }
+            console.log(e.lngLat);
+            customMarker.current = new mapboxgl.Marker({
+                color: 'red',
+            })
+                .setLngLat([e.lngLat.lng, e.lngLat.lat])
+                .addTo(map.current!);
+
+            setLngLat(e.lngLat.lng, e.lngLat.lat);
+        });
+    }, []);
+    return (
+        <div
+            id='cust_map'
+            style={{
+                height: 400,
+                width: '100%',
+                zIndex: 0,
+            }}
+        />
+    );
+};
 export default MakeAPost;
