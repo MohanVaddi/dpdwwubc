@@ -32,6 +32,11 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
     const [location, setLocation] = useState<
         GeolocationCoordinates | undefined
     >(undefined);
+
+    const [mobile, setMobileNumber] = useState<string>(
+        ctx.state.user.mobile || ''
+    );
+
     const [workingDays, setWorkingDays] = useState<WorkingDays[]>([
         'monday',
         'tuesday',
@@ -102,13 +107,36 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
         if (profession.trim().length === 0) {
             toast({
                 title: 'Error.',
-                description: `Fields can't be empty.`,
+                description: `Profession can't be empty.`,
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
             });
             setIsSendingPost(false);
-            console.log('profession is empty');
+            return;
+        }
+
+        if (mobile.trim().length === 0) {
+            toast({
+                title: 'Error.',
+                description: `Mobile Number can't be empty.`,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            });
+            setIsSendingPost(false);
+            return;
+        }
+
+        if (mobile.trim().length !== 10) {
+            toast({
+                title: 'Error.',
+                description: `Mobile Number must contain 10 digits only.`,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            });
+            setIsSendingPost(false);
             return;
         }
 
@@ -181,18 +209,32 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                             <Input
                                 value={ctx.state.user.username}
                                 placeholder='Name'
-                                onChange={() => {}}
+                                readOnly={true}
                             />
                         </FormControl>
 
                         <FormControl mt={6}>
                             <FormLabel>Email ID:</FormLabel>
                             <Input
+                                type={'email'}
                                 readOnly={true}
                                 value={ctx.state.user.email}
                                 placeholder='Email'
                             />
                         </FormControl>
+
+                        <FormControl mt={6}>
+                            <FormLabel>Mobile :</FormLabel>
+                            <Input
+                                type='tel'
+                                value={mobile}
+                                onChange={(e) => {
+                                    setMobileNumber(e.target.value);
+                                }}
+                                placeholder='Mobile'
+                            />
+                        </FormControl>
+
                         <FormControl mt={6}>
                             <FormLabel>Profession:</FormLabel>
                             <Select

@@ -2,34 +2,19 @@ import { Search2Icon } from '@chakra-ui/icons';
 import {
     Button,
     ButtonProps,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Container,
-    Grid,
-    GridItem,
-    Center,
-    SimpleGrid,
-    Text,
-    Spinner,
-    Stack,
-    Skeleton,
-    Flex,
-    Box,
     HStack,
-    ButtonGroup,
-    VStack,
-    Tabs,
-    TabList,
+    SimpleGrid,
+    Stack,
+    Text,
     useColorModeValue,
-    Tab,
-    TabPanels,
-    TabPanel,
+    VStack,
+    Box,
+    Center,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { NextPage } from 'next';
 import Layout from '../../components/UI/Layout';
-import { MdLocationSearching } from 'react-icons/md';
+import { MdCall, MdLocationSearching } from 'react-icons/md';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import FilterMenuCmp from '../profiles/FilterMenuCmp';
 import Head from 'next/head';
@@ -52,6 +37,7 @@ const FramerButton = motion<ButtonProps>(Button);
 
 import MapBox from '../../components/MapBox';
 import { PostComp } from '../home/MakeAPost';
+import { sortChronological } from '../../utils/functions';
 
 interface PostPageProps {
     children?: React.ReactNode;
@@ -59,24 +45,6 @@ interface PostPageProps {
     posts: Posts[];
     markerPoints: LatLngLiteral[];
 }
-
-// function DynamicMap() {
-//     const Map = React.useMemo(
-//         () =>
-//             dynamic(
-//                 // @ts-ignore
-//                 () => import('../../components/Map'), // replace '@components/map' with your component's location
-//                 {
-//                     loading: () => <p>map is loading</p>,
-//                     ssr: false, // This line is important. It's what prevents server-side render
-//                 }
-//             ),
-//         [
-//             /* list variables which should trigger a re-render here */
-//         ]
-//     );
-//     return <Map />;
-// }
 
 const Posts: NextPage<PostPageProps> = (props) => {
     const ctx = useContext(AppContext);
@@ -86,6 +54,14 @@ const Posts: NextPage<PostPageProps> = (props) => {
     const [user, loading] = useAuthState(auth);
 
     const [userFrmCtx, setUserFrmCtx] = useState<UserInterface>(ctx.state.user);
+
+    const [posts, setPosts] = useState<Posts[]>(
+        props.posts.filter(
+            (post) =>
+                post.userId !== ctx.state.user.userId &&
+                post.expertiseNeeded === ctx.state.user.openToWork?.expertise
+        )
+    );
 
     useEffect(() => {
         if (user) {
@@ -100,12 +76,10 @@ const Posts: NextPage<PostPageProps> = (props) => {
         });
     }, [props.markerPoints]);
 
+    sortChronological(posts, 'createdAt');
+
     if (loading) {
-        return (
-            <>
-                <LoadingModal />
-            </>
-        );
+        return <LoadingModal />;
     } else {
         return (
             <>
@@ -119,16 +93,33 @@ const Posts: NextPage<PostPageProps> = (props) => {
                             />
                         </Head>
                         {/* {<DynamicMap />} */}
-                        <MapBox />
-                        <SimpleGrid
-                            w='full'
-                            columns={[1, 1, 2]}
-                            spacing={[2, 6]}
-                            mt={10}>
-                            {props.posts.map((post, idx) => {
-                                return <PostComp key={idx} post={post} />;
-                            })}
-                        </SimpleGrid>
+                        <MapBox posts={posts} />
+                        {ctx.state.user.openToWork && (
+                            <SimpleGrid
+                                w='full'
+                                columns={[1, 1, 2]}
+                                spacing={[2, 6]}
+                                mt={10}>
+                                {posts.map((post, idx) => {
+                                    return (
+                                        <PostCompWithHireFunctionality
+                                            key={idx}
+                                            post={post}
+                                        />
+                                    );
+                                })}
+                            </SimpleGrid>
+                        )}
+                        {!ctx.state.user.openToWork && (
+                            <Center padding={10}>
+                                <Text
+                                    fontSize={'lg'}
+                                    color='red.500'
+                                    align={
+                                        'center'
+                                    }>{`Set your profile to pubic`}</Text>
+                            </Center>
+                        )}
                     </Layout>
                 )}
             </>
@@ -158,5 +149,80 @@ export async function getStaticProps() {
         revalidate: 10,
     };
 }
+
+interface PostCompProps {
+    post: Posts;
+}
+
+const PostCompWithHireFunctionality: React.FC<PostCompProps> = ({ post }) => {
+    const dateNTime = new Date(parseInt(post.createdAt as string));
+
+    const setPostsToWaiting = async() => {
+        
+    }
+
+    return (
+        <>
+            <Stack
+                textAlign={'left'}
+                backgroundColor={useColorModeValue('gray.100', '#231e39')}
+                borderWidth='1px'
+                w={{
+                    base: 'full',
+                    sm: 'auto',
+                }}
+                borderRadius={'md'}
+                spacing={2}
+                direction={{ base: 'column', sm: 'row', md: 'column' }}
+                // cursor='pointer'
+                boxShadow={'md'}
+                position='relative'
+                align={'center'}
+                mb={6}>
+                <VStack px={10} py={4} spacing={3} w='full' align={'left'}>
+                    <Text
+                        // align={'center'}
+                        w='full'
+                        noOfLines={1}
+                        fontSize={'xl'}
+                        fontWeight={600}>
+                        {post.title}
+                    </Text>
+                    <Text
+                        fontSize={
+                            'sm'
+                        }>{`${dateNTime.getDate()}/${dateNTime.getMonth()}/${dateNTime.getFullYear()}   ${dateNTime.getHours()}:${dateNTime.getMinutes()}`}</Text>
+                    <Text fontSize={'lg'}>{`${post.description}`}</Text>
+
+                    <HStack w='full'>
+                        <Text>{post.expertiseNeeded.toLocaleUpperCase()}</Text>
+                        <Text>{post.mobile}</Text>
+                    </HStack>
+
+                    {/* <HStack w='full'>
+                        <Button variant={'solid'} colorScheme='green' onClick={setPostsToWaiting}>
+                            Accept
+                        </Button>
+                    </HStack> */}
+
+                    {/*  <HStack w='full' justifyContent={'space-between'}>
+                        {/* <Link
+                            href={`tel:${post.mobile && post.mobile}`}
+                            passHref
+                            textDecoration={'none'}> 
+                        <Button
+                            colorScheme={'green'}
+                            variant='outline'
+                            rounded={'xl'}
+                            rightIcon={<MdCall />}>
+                            Call
+                        </Button>
+                        </Link> 
+                    </HStack> */}
+                </VStack>
+            </Stack>
+        </>
+    );
+};
 
 export default Posts;

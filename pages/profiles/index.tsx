@@ -57,6 +57,12 @@ const Profiles: NextPage<ProfilesPageProps> = (props) => {
         }
     }, [user, ctx.state.user]);
 
+    const filteredProfiles = props.profiles.filter(
+        (ele) => ele.userId !== ctx.state.user.userId
+    );
+
+    console.log(filteredProfiles);
+
     if (loading) {
         return <LoadingModal />;
     } else {
@@ -85,7 +91,7 @@ const Profiles: NextPage<ProfilesPageProps> = (props) => {
                                         lg: 3,
                                     }}
                                     spacing={6}>
-                                    {props.profiles.map((profile, idx) => {
+                                    {filteredProfiles.map((profile, idx) => {
                                         return (
                                             <ProfileCard
                                                 key={idx}

@@ -92,6 +92,10 @@ const Home: NextPage = () => {
                                         {/* <Tab>Profile</Tab> */}
                                         <Tab>Profile</Tab>
                                         <Tab>Posts</Tab>
+                                        {/* <Tab>In Progress</Tab> */}
+                                        {/* <Tab>Waiting</Tab>
+                                        <Tab>Hired</Tab>
+                                        <Tab>Completed</Tab> */}
                                     </TabList>
                                     <TabPanels p='2rem'>
                                         {/* <TabPanel>
@@ -107,6 +111,18 @@ const Home: NextPage = () => {
                                         <TabPanel>
                                             <MakeAPost />
                                         </TabPanel>
+                                        {/* <TabPanel>
+                                            <WorkInProgress />
+                                        </TabPanel>
+                                        <TabPanel>
+                                            <WaitingForApproval />
+                                        </TabPanel>
+                                        <TabPanel>
+                                            <HiredPeople />
+                                        </TabPanel>
+                                        <TabPanel>
+                                            <CompletedWorks />
+                                        </TabPanel> */}
                                     </TabPanels>
                                 </Tabs>
                             </Box>
@@ -116,6 +132,19 @@ const Home: NextPage = () => {
             </>
         );
     }
+};
+
+const CompletedWorks = () => {
+    return <>Recent Works</>;
+};
+const WorkInProgress = () => {
+    return <>WorkInProgress</>;
+};
+const WaitingForApproval = () => {
+    return <>WaitingForApproval</>;
+};
+const HiredPeople = () => {
+    return <>HiredPeople</>;
 };
 
 export default Home;
