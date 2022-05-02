@@ -34,7 +34,7 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
     >(undefined);
 
     const [mobile, setMobileNumber] = useState<string>(
-        ctx.state.user.mobile || ''
+        ctx.state.user.openToWork?.mobile || ''
     );
 
     const [workingDays, setWorkingDays] = useState<WorkingDays[]>([
@@ -146,7 +146,8 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
             // mobile: ctx.state.user.mobile,
             email: ctx.state.user.email,
             photoURL: ctx.state.user.photoURL,
-            isMobileVerified: ctx.state.user.isMobileVerified as boolean,
+            isMobileVerified: true,
+            mobile: mobile,
             location: `${location!.latitude} ${location!.longitude}`,
             expertise: profession,
             workingDays: workingDays,

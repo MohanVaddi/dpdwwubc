@@ -1,4 +1,4 @@
-import { Search2Icon } from '@chakra-ui/icons';
+import { ChatIcon, Search2Icon } from '@chakra-ui/icons';
 import {
     Button,
     ButtonProps,
@@ -38,6 +38,7 @@ const FramerButton = motion<ButtonProps>(Button);
 import MapBox from '../../components/MapBox';
 import { PostComp } from '../home/MakeAPost';
 import { sortChronological } from '../../utils/functions';
+import Link from 'next/link';
 
 interface PostPageProps {
     children?: React.ReactNode;
@@ -222,28 +223,34 @@ const PostCompWithLocate: React.FC<PostCompProps> = ({ post, locate }) => {
                             colorScheme='blue'>
                             Locate on map
                         </Button>
-                    </HStack>
 
-                    {/* <HStack w='full'>
+                        {/* <HStack w='full'>
                         <Button variant={'solid'} colorScheme='green' onClick={setPostsToWaiting}>
                             Accept
                         </Button>
                     </HStack> */}
 
-                    {/*  <HStack w='full' justifyContent={'space-between'}>
-                        {/* <Link
+                        <Link
                             href={`tel:${post.mobile && post.mobile}`}
-                            passHref
-                            textDecoration={'none'}> 
-                        <Button
-                            colorScheme={'green'}
-                            variant='outline'
-                            rounded={'xl'}
-                            rightIcon={<MdCall />}>
-                            Call
-                        </Button>
-                        </Link> 
-                    </HStack> */}
+                            passHref>
+                            <Button
+                                colorScheme={'blue'}
+                                variant='outline'
+                                rounded={'xl'}
+                                rightIcon={<MdCall />}>
+                                Call
+                            </Button>
+                        </Link>
+                        <Link href={`https://wa.me/91${post.mobile}`} passHref>
+                            <Button
+                                colorScheme={'whatsapp'}
+                                variant='outline'
+                                rounded={'xl'}
+                                rightIcon={<ChatIcon />}>
+                                Chat
+                            </Button>
+                        </Link>
+                    </HStack>
                 </VStack>
             </Stack>
         </>

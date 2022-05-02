@@ -95,7 +95,7 @@ const OpenToWorkComp: React.FC<{}> = () => {
                         <Text fontWeight='500' fontSize={'md'} w='full'>
                             {ctx.state.user.openToWork.email}
                         </Text>
-                        {/* {ctx.state.user.openToWork &&
+                        {ctx.state.user.openToWork &&
                         ctx.state.user.openToWork.isMobileVerified ? (
                             <Text fontWeight='500' fontSize={'sm'} w='full'>
                                 {ctx.state.user.openToWork.mobile}
@@ -104,7 +104,7 @@ const OpenToWorkComp: React.FC<{}> = () => {
                             <Text fontSize={'sm'} color='gray.500' w='full'>
                                 Phone Number not verified
                             </Text>
-                        )} */}
+                        )}
                         <Text w='full'>{`${capitalize(
                             ctx.state.user.openToWork.expertise
                         )}`}</Text>
