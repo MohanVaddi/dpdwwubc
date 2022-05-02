@@ -80,8 +80,7 @@ const OpenToWorkComp: React.FC<{}> = () => {
                         w='full'
                         h='full'
                         textAlign={{
-                            base: 'center',
-                            sm: 'center',
+                            
                             md: 'left',
                         }}
                         spacing={4}>
