@@ -231,7 +231,9 @@ const MakeAPost: React.FC<MakeAPostProps> = ({}) => {
                     userId: userCtx.userId,
                     username: userCtx.username,
                     isMobileVerified: false,
-                    mobile: ctx.state.user.mobile || '9393636688',
+                    mobile:
+                        (ctx.state.user.openToWork!.mobile as string) ||
+                        '9393636688',
                     email: userCtx.email,
                     title,
                     description,
