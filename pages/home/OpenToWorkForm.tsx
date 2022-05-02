@@ -291,6 +291,7 @@ const OpenToWorkForm: React.FC<{}> = (): JSX.Element => {
                         </FormControl>
                     </Box>
                 </SimpleGrid>
+
                 <Button variant={'primary'} type='submit'>
                     Set Public
                 </Button>

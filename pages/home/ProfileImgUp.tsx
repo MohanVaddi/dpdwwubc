@@ -51,7 +51,7 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
                         <Image
                             width='300px'
                             height={'300px'}
-                            rounded={'full'}
+                            rounded={'5px'}
                             referrerPolicy='no-referrer'
                             alt='profile image'
                             src={filesContent[0].content}
@@ -59,7 +59,7 @@ const ProfileImgUp: React.FC<ProfileImgUpProps> = ({
                     ) : (
                         <Image
                             alt='profile image'
-                            rounded={'full'}
+                            rounded={'5px'}
                             src={imgUrl}
                             width='300px'
                             height={'300px'}

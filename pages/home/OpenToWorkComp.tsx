@@ -65,7 +65,7 @@ const OpenToWorkComp: React.FC<{}> = () => {
                                 ctx.state.user.openToWork.photoURL as string,
                                 '300'
                             )}
-                            rounded='full'
+                            rounded={'5px'}
                         />
                         {/* <Text
                             fontSize={'3xl'}
@@ -80,7 +80,6 @@ const OpenToWorkComp: React.FC<{}> = () => {
                         w='full'
                         h='full'
                         textAlign={{
-                            
                             md: 'left',
                         }}
                         spacing={4}>

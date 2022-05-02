@@ -140,7 +140,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                         </Text>
                     </Tooltip>
 
-                    <Text>{profile!.mobile && profile!.mobile}</Text>
+                    <Text w='full'>{profile!.mobile && profile!.mobile}</Text>
 
                     <HStack w='full' justifyContent={'space-between'}>
                         {['M', 'T', 'W', 'Th', 'F', 'Sa', 'S'].map(
@@ -166,17 +166,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                             }
                         )}
                     </HStack>
-                    {/* 
-                    <HStack w='full' justifyContent={'space-between'}>
-                        <Link href={`/user/${uuid && uuid}`} passHref>
-                            <Button
-                                colorScheme={'messenger'}
-                                rounded='xl'
-                                variant='ghost'>
-                                View Profile
-                            </Button>
-                        </Link> 
-                        <Link href={`tel:${mobile && mobile}`} passHref>
+
+                    <HStack w='full' justifyContent={'space-between'} pt={4}>
+                        <Link
+                            href={`tel:${profile.mobile && profile.mobile}`}
+                            passHref>
                             <Button
                                 colorScheme={'green'}
                                 variant='outline'
@@ -184,13 +178,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                                 rightIcon={<MdCall />}>
                                 Call
                             </Button>
-                            <Circle size='40px' bg='green' color='white'>
-                                <PhoneIcon />
-                            </Circle> 
                         </Link>
-                    </HStack> */}
+                    </HStack>
 
-                    <HStack w='full' pt={5} textAlign='right'>
+                    <HStack w='full' pt={3} textAlign='right'>
                         <Text fontSize={'smaller'}>
                             {`Last Updated : 
                             ${getDate(
